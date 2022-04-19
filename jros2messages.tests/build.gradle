@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'com.diffplug.spotless'
+    id 'jacoco'
+}
+
+apply plugin : 'eclipse'
+
+dependencies {
+    testImplementation project(':jros2messages')
+    testImplementation 'io.github.lambdaprime:id.xfunction:15.0'
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
+    testImplementation('org.junit.jupiter:junit-jupiter-params:5.4.2')
+    testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.4.2')
+    testRuntimeOnly('org.junit.platform:junit-platform-commons:1.7.0')
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport, jacocoTestCoverageVerification
+}
+
+jacocoTestReport {
+    // generate only HTML report
+    reports {
+        xml.enabled = false
+        csv.enabled = false
+        html.enabled = true
+    }
+    sourceDirectories.from = project(':jros2messages').sourceSets.main.java.srcDirs
+    classDirectories.from = project(':jros2messages').sourceSets.main.java.classesDirectory
+}
+
+jacocoTestCoverageVerification {
+    sourceDirectories.from = project(':jros2messages').sourceSets.main.java.srcDirs
+    classDirectories.from = project(':jros2messages').sourceSets.main.java.classesDirectory
+    violationRules {
+        rule {
+        enabled = true
+            element = 'BUNDLE'
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.4
+            }
+        }
+    }
+}
+
+// run spotless and format code before the build
+testClasses.dependsOn spotlessApply

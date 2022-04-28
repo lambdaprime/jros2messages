@@ -20,7 +20,6 @@ package id.jros2messages.sensor_msgs;
 import id.jros2messages.std_msgs.HeaderMessage;
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
@@ -46,22 +45,22 @@ public class JointStateMessage implements Message {
      * The header specifies the time at which the joint states were recorded. All the joint states
      * in one message have to be recorded at the same time.
      */
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
     /** Each joint is uniquely identified by its name */
-    @Streamed public String[] name = new String[0];
+    public String[] name = new String[0];
 
     /** The position of the joint (rad or m) */
-    @Streamed public double[] position = new double[0];
+    public double[] position = new double[0];
 
     /** The velocity of the joint (rad/s or m/s) */
-    @Streamed public double[] velocity = new double[0];
+    public double[] velocity = new double[0];
 
     /**
      * The effort that is applied in the joint (Nm or N). When e.g. your joints have no effort
      * associated with them, you can leave the effort array empty.
      */
-    @Streamed public double[] effort = new double[0];
+    public double[] effort = new double[0];
 
     public JointStateMessage() {}
 

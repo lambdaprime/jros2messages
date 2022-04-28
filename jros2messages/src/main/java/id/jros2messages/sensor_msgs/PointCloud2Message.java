@@ -21,7 +21,6 @@ import id.jros2messages.std_msgs.HeaderMessage;
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.sensor_msgs.PointFieldMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
@@ -33,33 +32,33 @@ public class PointCloud2Message implements Message {
     static final String NAME = "sensor_msgs/PointCloud2";
 
     /** Time of sensor data acquisition, and the coordinate frame ID (for 3d points) */
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
     /**
      * 2D structure of the point cloud. If the cloud is unordered, height is 1 and width is the
      * length of the point cloud (row_step / point_step).
      */
-    @Streamed public int height;
+    public int height;
 
-    @Streamed public int width;
+    public int width;
 
     /** Describes the channels and their layout in the binary data blob. */
-    @Streamed public PointFieldMessage[] fields = new PointFieldMessage[0];
+    public PointFieldMessage[] fields = new PointFieldMessage[0];
 
     /** Is this data bigendian? */
-    @Streamed public boolean is_bigendian;
+    public boolean is_bigendian;
 
     /** Length of a point in bytes */
-    @Streamed public int point_step;
+    public int point_step;
 
     /** Length of a row in bytes */
-    @Streamed public int row_step;
+    public int row_step;
 
     /** Actual point data, size is (row_step*height) */
-    @Streamed public byte[] data = new byte[0];
+    public byte[] data = new byte[0];
 
     /** True if there are no invalid points */
-    @Streamed public boolean is_dense;
+    public boolean is_dense;
 
     public PointCloud2Message() {}
 

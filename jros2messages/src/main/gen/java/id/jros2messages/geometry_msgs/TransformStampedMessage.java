@@ -22,7 +22,6 @@ import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.geometry_msgs.TransformMessage;
 import id.jrosmessages.std_msgs.StringMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Objects;
 
@@ -36,12 +35,12 @@ public class TransformStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/TransformStamped";
 
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
     /** the frame id of the child frame */
-    @Streamed public StringMessage child_frame_id = new StringMessage();
+    public StringMessage child_frame_id = new StringMessage();
 
-    @Streamed public TransformMessage transform = new TransformMessage();
+    public TransformMessage transform = new TransformMessage();
 
     public TransformStampedMessage withHeader(HeaderMessage header) {
         this.header = header;

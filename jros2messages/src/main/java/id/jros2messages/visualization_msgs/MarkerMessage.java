@@ -26,7 +26,6 @@ import id.jrosmessages.geometry_msgs.Vector3Message;
 import id.jrosmessages.primitives.Duration;
 import id.jrosmessages.std_msgs.ColorRGBAMessage;
 import id.jrosmessages.std_msgs.StringMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
@@ -60,58 +59,58 @@ public class MarkerMessage implements Message {
     }
 
     /** Header for time/frame information */
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
     /**
      * Namespace to place this object in... used in conjunction with id to create a unique name for
      * the object
      */
-    @Streamed public StringMessage ns = new StringMessage();
+    public StringMessage ns = new StringMessage();
 
     /**
      * Object ID useful in conjunction with the namespace for manipulating and deleting the object
      * later
      */
-    @Streamed public int id;
+    public int id;
 
     /** Type of object */
-    @Streamed public int type;
+    public int type;
 
     /** 0 add/modify an object, 1 (deprecated), 2 deletes an object, 3 deletes all objects */
-    @Streamed public int action;
+    public int action;
 
     /** Pose of the object */
-    @Streamed public PoseMessage pose = new PoseMessage();
+    public PoseMessage pose = new PoseMessage();
 
     /** Scale of the object 1,1,1 means default (usually 1 meter square) */
-    @Streamed public Vector3Message scale = new Vector3Message();
+    public Vector3Message scale = new Vector3Message();
 
     /** Color [0.0-1.0] */
-    @Streamed public ColorRGBAMessage color = new ColorRGBAMessage();
+    public ColorRGBAMessage color = new ColorRGBAMessage();
 
     /** How long the object should last before being automatically deleted. 0 means forever */
-    @Streamed public Duration lifetime = new Duration();
+    public Duration lifetime = new Duration();
 
     /** If this marker should be frame-locked, i.e. retransformed into its frame every timestep */
-    @Streamed public boolean frame_locked;
+    public boolean frame_locked;
 
     /** Only used if the type specified has some use for them (eg. POINTS, LINE_STRIP, ...) */
-    @Streamed public PointMessage[] points = new PointMessage[0];
+    public PointMessage[] points = new PointMessage[0];
 
     /**
      * Only used if the type specified has some use for them (eg. POINTS, LINE_STRIP, ...) number of
      * colors must either be 0 or equal to the number of points NOTE: alpha is not yet used
      */
-    @Streamed public ColorRGBAMessage[] colors = new ColorRGBAMessage[0];
+    public ColorRGBAMessage[] colors = new ColorRGBAMessage[0];
 
     /** Only used for text markers */
-    @Streamed public StringMessage text = new StringMessage();
+    public StringMessage text = new StringMessage();
 
     /** Only used for MESH_RESOURCE markers */
-    @Streamed public StringMessage mesh_resource = new StringMessage();
+    public StringMessage mesh_resource = new StringMessage();
 
     /** If this marker should be frame-locked, i.e. retransformed into its frame every timestep */
-    @Streamed public boolean mesh_use_embedded_materials;
+    public boolean mesh_use_embedded_materials;
 
     public MarkerMessage withHeader(HeaderMessage header) {
         this.header = header;

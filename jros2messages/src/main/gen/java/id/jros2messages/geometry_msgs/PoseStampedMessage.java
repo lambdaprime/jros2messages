@@ -21,7 +21,6 @@ import id.jros2messages.std_msgs.HeaderMessage;
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.geometry_msgs.PoseMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Objects;
 
@@ -31,9 +30,9 @@ public class PoseStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/PoseStamped";
 
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
-    @Streamed public PoseMessage pose = new PoseMessage();
+    public PoseMessage pose = new PoseMessage();
 
     public PoseStampedMessage withHeader(HeaderMessage header) {
         this.header = header;

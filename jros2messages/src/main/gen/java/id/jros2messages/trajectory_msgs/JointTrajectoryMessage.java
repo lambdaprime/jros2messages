@@ -22,7 +22,6 @@ import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.std_msgs.StringMessage;
 import id.jrosmessages.trajectory_msgs.JointTrajectoryPointMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
@@ -33,11 +32,11 @@ public class JointTrajectoryMessage implements Message {
 
     static final String NAME = "trajectory_msgs/JointTrajectory";
 
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
-    @Streamed public StringMessage[] joint_names = new StringMessage[0];
+    public StringMessage[] joint_names = new StringMessage[0];
 
-    @Streamed public JointTrajectoryPointMessage[] points = new JointTrajectoryPointMessage[0];
+    public JointTrajectoryPointMessage[] points = new JointTrajectoryPointMessage[0];
 
     public JointTrajectoryMessage withHeader(HeaderMessage header) {
         this.header = header;

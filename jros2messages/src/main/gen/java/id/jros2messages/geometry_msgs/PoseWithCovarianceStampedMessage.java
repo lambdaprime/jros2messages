@@ -21,7 +21,6 @@ import id.jros2messages.std_msgs.HeaderMessage;
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.geometry_msgs.PoseWithCovarianceMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Objects;
 
@@ -36,9 +35,9 @@ public class PoseWithCovarianceStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/PoseWithCovarianceStamped";
 
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
-    @Streamed public PoseWithCovarianceMessage pose = new PoseWithCovarianceMessage();
+    public PoseWithCovarianceMessage pose = new PoseWithCovarianceMessage();
 
     public PoseWithCovarianceStampedMessage withHeader(HeaderMessage header) {
         this.header = header;

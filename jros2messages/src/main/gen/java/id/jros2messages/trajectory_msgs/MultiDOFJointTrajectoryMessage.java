@@ -22,7 +22,6 @@ import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.std_msgs.StringMessage;
 import id.jrosmessages.trajectory_msgs.MultiDOFJointTrajectoryPointMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
@@ -39,7 +38,7 @@ public class MultiDOFJointTrajectoryMessage implements Message {
      * The header is used to specify the coordinate frame and the reference time for the trajectory
      * durations
      */
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
     /**
      * A representation of a multi-dof joint trajectory (each point is a transformation) Each point
@@ -47,9 +46,8 @@ public class MultiDOFJointTrajectoryMessage implements Message {
      * same length as the array of joint names, and has the same order of joints as the joint names
      * array.
      */
-    @Streamed public StringMessage[] joint_names = new StringMessage[0];
+    public StringMessage[] joint_names = new StringMessage[0];
 
-    @Streamed
     public MultiDOFJointTrajectoryPointMessage[] points =
             new MultiDOFJointTrajectoryPointMessage[0];
 

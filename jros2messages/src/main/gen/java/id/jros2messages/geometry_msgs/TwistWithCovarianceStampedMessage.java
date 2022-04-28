@@ -21,7 +21,6 @@ import id.jros2messages.std_msgs.HeaderMessage;
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.geometry_msgs.TwistWithCovarianceMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Objects;
 
@@ -36,9 +35,9 @@ public class TwistWithCovarianceStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/TwistWithCovarianceStamped";
 
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
-    @Streamed public TwistWithCovarianceMessage twist = new TwistWithCovarianceMessage();
+    public TwistWithCovarianceMessage twist = new TwistWithCovarianceMessage();
 
     public TwistWithCovarianceStampedMessage withHeader(HeaderMessage header) {
         this.header = header;

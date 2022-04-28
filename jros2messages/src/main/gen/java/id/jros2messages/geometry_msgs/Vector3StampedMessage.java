@@ -21,7 +21,6 @@ import id.jros2messages.std_msgs.HeaderMessage;
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.geometry_msgs.Vector3Message;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Objects;
 
@@ -34,9 +33,9 @@ public class Vector3StampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/Vector3Stamped";
 
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
-    @Streamed public Vector3Message vector = new Vector3Message();
+    public Vector3Message vector = new Vector3Message();
 
     public Vector3StampedMessage withHeader(HeaderMessage header) {
         this.header = header;

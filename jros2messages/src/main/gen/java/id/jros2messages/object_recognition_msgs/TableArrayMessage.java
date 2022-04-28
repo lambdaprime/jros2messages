@@ -20,7 +20,6 @@ package id.jros2messages.object_recognition_msgs;
 import id.jros2messages.std_msgs.HeaderMessage;
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
@@ -31,10 +30,10 @@ public class TableArrayMessage implements Message {
 
     static final String NAME = "object_recognition_msgs/TableArray";
 
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
     /** Just an array of tables */
-    @Streamed public TableMessage[] tables = new TableMessage[0];
+    public TableMessage[] tables = new TableMessage[0];
 
     public TableArrayMessage withHeader(HeaderMessage header) {
         this.header = header;

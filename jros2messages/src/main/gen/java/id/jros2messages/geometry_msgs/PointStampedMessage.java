@@ -21,7 +21,6 @@ import id.jros2messages.std_msgs.HeaderMessage;
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.geometry_msgs.PointMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Objects;
 
@@ -34,9 +33,9 @@ public class PointStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/PointStamped";
 
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
-    @Streamed public PointMessage point = new PointMessage();
+    public PointMessage point = new PointMessage();
 
     public PointStampedMessage withHeader(HeaderMessage header) {
         this.header = header;

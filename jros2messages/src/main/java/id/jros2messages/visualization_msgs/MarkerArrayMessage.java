@@ -19,7 +19,6 @@ package id.jros2messages.visualization_msgs;
 
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Arrays;
 
@@ -29,7 +28,7 @@ public class MarkerArrayMessage implements Message {
 
     static final String NAME = "visualization_msgs/MarkerArray";
 
-    @Streamed public MarkerMessage[] markers = new MarkerMessage[0];
+    public MarkerMessage[] markers = new MarkerMessage[0];
 
     public MarkerArrayMessage withMarkers(MarkerMessage... markers) {
         this.markers = markers;

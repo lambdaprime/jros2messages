@@ -21,7 +21,6 @@ import id.jros2messages.std_msgs.HeaderMessage;
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.geometry_msgs.WrenchMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Objects;
 
@@ -33,9 +32,9 @@ public class WrenchStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/WrenchStamped";
 
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
-    @Streamed public WrenchMessage wrench = new WrenchMessage();
+    public WrenchMessage wrench = new WrenchMessage();
 
     public WrenchStampedMessage withHeader(HeaderMessage header) {
         this.header = header;

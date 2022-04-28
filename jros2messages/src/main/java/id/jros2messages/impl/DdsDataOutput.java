@@ -99,7 +99,7 @@ public class DdsDataOutput implements OutputKineticStream {
 
     @Override
     public void writeIntArray(int[] array) throws Exception {
-        throw new RuntimeException("Not supported");
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -123,6 +123,29 @@ public class DdsDataOutput implements OutputKineticStream {
         writeLen(array.length);
         for (var item : array) {
             writeBoolean(item);
+        }
+    }
+
+    @Override
+    public void writeLong(Long arg0) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void writeShort(Short arg0) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void writeShortArray(short[] arg0) throws Exception {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void writeStringArray(String[] array) throws Exception {
+        writeLen(array.length);
+        for (var item : array) {
+            writeString(item);
         }
     }
 }

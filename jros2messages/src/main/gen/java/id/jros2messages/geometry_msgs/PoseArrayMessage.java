@@ -21,7 +21,6 @@ import id.jros2messages.std_msgs.HeaderMessage;
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.geometry_msgs.PoseMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
@@ -32,9 +31,9 @@ public class PoseArrayMessage implements Message {
 
     static final String NAME = "geometry_msgs/PoseArray";
 
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
-    @Streamed public PoseMessage[] poses = new PoseMessage[0];
+    public PoseMessage[] poses = new PoseMessage[0];
 
     public PoseArrayMessage withHeader(HeaderMessage header) {
         this.header = header;

@@ -25,7 +25,6 @@ import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.geometry_msgs.PointMessage;
 import id.jrosmessages.object_recognition_msgs.ObjectTypeMessage;
 import id.jrosmessages.shape_msgs.MeshMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
@@ -37,43 +36,43 @@ public class RecognizedObjectMessage implements Message {
     static final String NAME = "object_recognition_msgs/RecognizedObject";
 
     /** The header frame corresponds to the pose frame, NOT the point_cloud frame. */
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
     /**
      * Contains information about the type and the position of a found object Some of those fields
      * might not be filled because the used techniques do not fill them or because the user does not
      * request them The type of the found object
      */
-    @Streamed public ObjectTypeMessage type = new ObjectTypeMessage();
+    public ObjectTypeMessage type = new ObjectTypeMessage();
 
     /**
      * confidence: how sure you are it is that object and not another one. It is between 0 and 1 and
      * the closer to one it is the better
      */
-    @Streamed public float confidence;
+    public float confidence;
 
     /**
      * Sometimes you can extract the 3d points that belong to the object, in the frames of the
      * original sensors (it is an array as you might have several sensors)
      */
-    @Streamed public PointCloud2Message[] point_clouds = new PointCloud2Message[0];
+    public PointCloud2Message[] point_clouds = new PointCloud2Message[0];
 
     /**
      * Sometimes, you can only provide a bounding box/shape, even in 3d This is in the pose frame
      */
-    @Streamed public MeshMessage bounding_mesh = new MeshMessage();
+    public MeshMessage bounding_mesh = new MeshMessage();
 
     /**
      * Sometimes, you only have 2d input so you can't really give a pose, you just get a contour, or
      * a box The last point will be linked to the first one automatically
      */
-    @Streamed public PointMessage[] bounding_contours = new PointMessage[0];
+    public PointMessage[] bounding_contours = new PointMessage[0];
 
     /**
      * This is the result that everybody expects : the pose in some frame given with the input. The
      * units are radian/meters as usual
      */
-    @Streamed public PoseWithCovarianceStampedMessage pose = new PoseWithCovarianceStampedMessage();
+    public PoseWithCovarianceStampedMessage pose = new PoseWithCovarianceStampedMessage();
 
     public RecognizedObjectMessage withHeader(HeaderMessage header) {
         this.header = header;

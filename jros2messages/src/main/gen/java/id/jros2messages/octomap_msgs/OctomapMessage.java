@@ -21,7 +21,6 @@ import id.jros2messages.std_msgs.HeaderMessage;
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
 import id.jrosmessages.std_msgs.StringMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
@@ -33,19 +32,19 @@ public class OctomapMessage implements Message {
     static final String NAME = "octomap_msgs/Octomap";
 
     /** A 3D map in binary format, as Octree */
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
     /** Flag to denote a binary (only free/occupied) or full occupancy octree (.bt/.ot file) */
-    @Streamed public boolean binary;
+    public boolean binary;
 
     /** Class id of the contained octree */
-    @Streamed public StringMessage id = new StringMessage();
+    public StringMessage id = new StringMessage();
 
     /** Resolution (in m) of the smallest octree nodes */
-    @Streamed public double resolution;
+    public double resolution;
 
     /** binary serialization of octree, use conversions.h to read and write octrees */
-    @Streamed public byte[] data = new byte[0];
+    public byte[] data = new byte[0];
 
     public OctomapMessage withHeader(HeaderMessage header) {
         this.header = header;

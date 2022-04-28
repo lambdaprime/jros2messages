@@ -24,7 +24,6 @@ import id.jrosmessages.geometry_msgs.TransformMessage;
 import id.jrosmessages.geometry_msgs.TwistMessage;
 import id.jrosmessages.geometry_msgs.WrenchMessage;
 import id.jrosmessages.std_msgs.StringMessage;
-import id.kineticstreamer.annotations.Streamed;
 import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
@@ -48,15 +47,15 @@ public class MultiDOFJointStateMessage implements Message {
 
     static final String NAME = "sensor_msgs/MultiDOFJointState";
 
-    @Streamed public HeaderMessage header = new HeaderMessage();
+    public HeaderMessage header = new HeaderMessage();
 
-    @Streamed public StringMessage[] joint_names = new StringMessage[0];
+    public StringMessage[] joint_names = new StringMessage[0];
 
-    @Streamed public TransformMessage[] transforms = new TransformMessage[0];
+    public TransformMessage[] transforms = new TransformMessage[0];
 
-    @Streamed public TwistMessage[] twist = new TwistMessage[0];
+    public TwistMessage[] twist = new TwistMessage[0];
 
-    @Streamed public WrenchMessage[] wrench = new WrenchMessage[0];
+    public WrenchMessage[] wrench = new WrenchMessage[0];
 
     public MultiDOFJointStateMessage withHeader(HeaderMessage header) {
         this.header = header;

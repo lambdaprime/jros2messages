@@ -29,7 +29,7 @@ import java.util.Objects;
  * reference coordinate frame and timestamp.
  */
 @MessageMetadata(
-        type = AccelWithCovarianceStampedMessage.NAME,
+        name = AccelWithCovarianceStampedMessage.NAME,
         md5sum = "cf7b852cab243d76000e69f42f2700f6")
 public class AccelWithCovarianceStampedMessage implements Message {
 

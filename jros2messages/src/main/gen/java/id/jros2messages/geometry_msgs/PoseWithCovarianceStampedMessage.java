@@ -29,7 +29,7 @@ import java.util.Objects;
  * reference coordinate frame and timestamp
  */
 @MessageMetadata(
-        type = PoseWithCovarianceStampedMessage.NAME,
+        name = PoseWithCovarianceStampedMessage.NAME,
         md5sum = "729039794eaab042b403222dbf81e197")
 public class PoseWithCovarianceStampedMessage implements Message {
 

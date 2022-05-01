@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /** Definition for geometry_msgs/PoseArray An array of poses with a header for global reference. */
-@MessageMetadata(type = PoseArrayMessage.NAME, md5sum = "5f3f794301c7af61b3beab5b9997bb64")
+@MessageMetadata(name = PoseArrayMessage.NAME, md5sum = "5f3f794301c7af61b3beab5b9997bb64")
 public class PoseArrayMessage implements Message {
 
     static final String NAME = "geometry_msgs/PoseArray";

@@ -25,7 +25,7 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /** Definition for geometry_msgs/PolygonStamped */
-@MessageMetadata(type = PolygonStampedMessage.NAME, md5sum = "c6be8f7dc3bee7fe9e8d296070f53340")
+@MessageMetadata(name = PolygonStampedMessage.NAME, md5sum = "c6be8f7dc3bee7fe9e8d296070f53340")
 public class PolygonStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/PolygonStamped";

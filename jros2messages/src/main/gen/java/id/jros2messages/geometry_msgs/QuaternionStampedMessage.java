@@ -28,7 +28,7 @@ import java.util.Objects;
  * Definition for geometry_msgs/QuaternionStamped This represents an orientation with reference
  * coordinate frame and timestamp.
  */
-@MessageMetadata(type = QuaternionStampedMessage.NAME, md5sum = "4a5c00199247da86fc3d583bf5af5ca6")
+@MessageMetadata(name = QuaternionStampedMessage.NAME, md5sum = "4a5c00199247da86fc3d583bf5af5ca6")
 public class QuaternionStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/QuaternionStamped";

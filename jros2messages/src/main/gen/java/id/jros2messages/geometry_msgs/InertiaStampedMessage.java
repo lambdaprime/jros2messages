@@ -25,7 +25,7 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /** Definition for geometry_msgs/InertiaStamped */
-@MessageMetadata(type = InertiaStampedMessage.NAME, md5sum = "f316819d435fac009022ead4726153cc")
+@MessageMetadata(name = InertiaStampedMessage.NAME, md5sum = "f316819d435fac009022ead4726153cc")
 public class InertiaStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/InertiaStamped";

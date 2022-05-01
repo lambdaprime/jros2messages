@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /** Definition for octomap_msgs/Octomap */
-@MessageMetadata(type = OctomapMessage.NAME, md5sum = "32f3044beff16cd691446b68085d739b")
+@MessageMetadata(name = OctomapMessage.NAME, md5sum = "32f3044beff16cd691446b68085d739b")
 public class OctomapMessage implements Message {
 
     static final String NAME = "octomap_msgs/Octomap";

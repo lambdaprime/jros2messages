@@ -30,7 +30,7 @@ import java.util.Objects;
  * Definition for object_recognition_msgs/Table Informs that a planar table has been detected at a
  * given location
  */
-@MessageMetadata(type = TableMessage.NAME, md5sum = "304994c1900801400e8500e36e22a08c")
+@MessageMetadata(name = TableMessage.NAME, md5sum = "304994c1900801400e8500e36e22a08c")
 public class TableMessage implements Message {
 
     static final String NAME = "object_recognition_msgs/Table";

@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /** Definition for visualization_msgs/Marker */
-@MessageMetadata(type = MarkerMessage.NAME, md5sum = "4048c9de2a16f4ae8e0538085ebf1b97")
+@MessageMetadata(name = MarkerMessage.NAME, md5sum = "4048c9de2a16f4ae8e0538085ebf1b97")
 public class MarkerMessage implements Message {
 
     static final String NAME = "visualization_msgs/Marker";

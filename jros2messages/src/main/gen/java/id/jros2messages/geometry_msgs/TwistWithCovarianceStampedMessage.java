@@ -29,7 +29,7 @@ import java.util.Objects;
  * reference coordinate frame and timestamp.
  */
 @MessageMetadata(
-        type = TwistWithCovarianceStampedMessage.NAME,
+        name = TwistWithCovarianceStampedMessage.NAME,
         md5sum = "f59b87b044187f26ef66329003c3d275")
 public class TwistWithCovarianceStampedMessage implements Message {
 

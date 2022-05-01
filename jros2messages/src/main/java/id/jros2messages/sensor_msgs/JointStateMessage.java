@@ -36,7 +36,7 @@ import java.util.Objects;
  * <p>All arrays in this message should have the same size, or be empty. This is the only way to
  * uniquely associate the joint name with the correct states.
  */
-@MessageMetadata(type = JointStateMessage.NAME, md5sum = "3066dcd76a6cfaef579bd0f34173e9fd")
+@MessageMetadata(name = JointStateMessage.NAME, md5sum = "3066dcd76a6cfaef579bd0f34173e9fd")
 public class JointStateMessage implements Message {
 
     static final String NAME = "sensor_msgs/JointState";

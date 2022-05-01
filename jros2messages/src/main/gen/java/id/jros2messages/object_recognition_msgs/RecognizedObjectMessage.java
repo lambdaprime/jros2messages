@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /** Definition for object_recognition_msgs/RecognizedObject */
-@MessageMetadata(type = RecognizedObjectMessage.NAME, md5sum = "8f315f16dac3cf3fefc414afb91cc13b")
+@MessageMetadata(name = RecognizedObjectMessage.NAME, md5sum = "8f315f16dac3cf3fefc414afb91cc13b")
 public class RecognizedObjectMessage implements Message {
 
     static final String NAME = "object_recognition_msgs/RecognizedObject";

@@ -27,7 +27,7 @@ import java.util.Objects;
 /**
  * Definition for geometry_msgs/WrenchStamped A wrench with reference coordinate frame and timestamp
  */
-@MessageMetadata(type = WrenchStampedMessage.NAME, md5sum = "150502b356390fb151385ef7647f633e")
+@MessageMetadata(name = WrenchStampedMessage.NAME, md5sum = "150502b356390fb151385ef7647f633e")
 public class WrenchStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/WrenchStamped";

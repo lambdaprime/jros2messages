@@ -28,7 +28,7 @@ import java.util.Objects;
  * Definition for geometry_msgs/PointStamped This represents a Point with reference coordinate frame
  * and timestamp
  */
-@MessageMetadata(type = PointStampedMessage.NAME, md5sum = "e948b3cf3f45aaeaedb063e8b966cf1f")
+@MessageMetadata(name = PointStampedMessage.NAME, md5sum = "e948b3cf3f45aaeaedb063e8b966cf1f")
 public class PointStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/PointStamped";

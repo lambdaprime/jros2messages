@@ -20,14 +20,14 @@ package id.jros2messages.tests;
 import static java.util.stream.Collectors.joining;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import id.jros2messages.MessageSerializationUtils;
 import id.jros2messages.geometry_msgs.PolygonStampedMessage;
-import id.jros2messages.impl.DdsDataInput;
-import id.jros2messages.impl.DdsDataOutput;
 import id.jros2messages.sensor_msgs.JointStateMessage;
 import id.jros2messages.sensor_msgs.PointCloud2Message;
 import id.jros2messages.std_msgs.HeaderMessage;
 import id.jros2messages.visualization_msgs.MarkerArrayMessage;
 import id.jros2messages.visualization_msgs.MarkerMessage;
+import id.jrosmessages.Message;
 import id.jrosmessages.geometry_msgs.Point32Message;
 import id.jrosmessages.geometry_msgs.PointMessage;
 import id.jrosmessages.geometry_msgs.PolygonMessage;
@@ -40,13 +40,8 @@ import id.jrosmessages.sensor_msgs.PointFieldMessage;
 import id.jrosmessages.sensor_msgs.PointFieldMessage.DataType;
 import id.jrosmessages.std_msgs.ColorRGBAMessage;
 import id.jrosmessages.std_msgs.StringMessage;
-import id.kineticstreamer.KineticStreamReader;
-import id.kineticstreamer.KineticStreamWriter;
 import id.xfunction.ResourceUtils;
-import id.xfunction.io.XInputStream;
-import id.xfunction.io.XOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import id.xfunction.XByte;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -54,6 +49,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class MessageTests {
     private static final ResourceUtils resourceUtils = new ResourceUtils();
+    private MessageSerializationUtils serializationUtils = new MessageSerializationUtils();
 
     static Stream<List> dataProvider() {
         return Stream.of(
@@ -195,8 +191,13 @@ public class MessageTests {
                                 .withNames("joint_0", "joint_1", "joint_2", "joint_3", "joint_4")
                                 .withPositions(
                                         new double[] {0.0, 0.0, 0.0, 0.767944870877505, 0.0})));
+                // 21
+//                List.of(readResource("joint-state"), new Int32Message().withData(5)));
     }
 
+    /**
+     * Read resource removing new lines if any
+     */
     private static String readResource(String resourceName) {
         var resource =
                 resourceUtils
@@ -209,11 +210,9 @@ public class MessageTests {
     @ParameterizedTest
     @MethodSource("dataProvider")
     public void testRead(List testData) throws Exception {
-        var collector = new XInputStream((String) testData.get(0));
-        var dis = new DdsDataInput(new DataInputStream(collector));
-        var ks = new KineticStreamReader(dis);
         Object expected = testData.get(1);
-        Object actual = ks.read(expected.getClass());
+        Object actual = serializationUtils.read(XByte.fromHexPairs((String) testData.get(0)),
+                (Class<? extends Message>) expected.getClass());
         System.out.println(actual);
         assertEquals(expected, actual);
     }
@@ -221,11 +220,8 @@ public class MessageTests {
     @ParameterizedTest
     @MethodSource("dataProvider")
     public void testWrite(List testData) throws Exception {
-        var b = testData.get(1);
-        var collector = new XOutputStream();
-        var dos = new DdsDataOutput(new DataOutputStream(collector));
-        var ks = new KineticStreamWriter(dos);
-        ks.write(b);
-        assertEquals(testData.get(0), collector.asHexString());
+        var b = (Message)testData.get(1);
+        var out = serializationUtils.write(b);
+        assertEquals(testData.get(0), XByte.toHexPairs(out));
     }
 }

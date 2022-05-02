@@ -19,11 +19,19 @@ package id.jros2messages.impl;
 
 import id.kineticstreamer.KineticStreamWriter;
 import id.kineticstreamer.OutputKineticStream;
+import id.xfunction.logging.XLogger;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.UUID;
 
+/**
+ * Kinetic stream implementation for types serialization in DDS format.
+ *
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
 public class DdsDataOutput implements OutputKineticStream {
 
+    private static final XLogger LOGGER = XLogger.getLogger(DdsDataOutput.class);
     private DataOutput out;
     private int position;
 
@@ -127,8 +135,10 @@ public class DdsDataOutput implements OutputKineticStream {
     }
 
     @Override
-    public void writeLong(Long arg0) throws Exception {
-        throw new UnsupportedOperationException();
+    public void writeLong(Long l) throws Exception {
+        align(Long.BYTES);
+        out.writeLong(Long.reverseBytes(l));
+        position += Long.BYTES;
     }
 
     @Override
@@ -147,5 +157,12 @@ public class DdsDataOutput implements OutputKineticStream {
         for (var item : array) {
             writeString(item);
         }
+    }
+
+    public void writeUUID(UUID uuid) throws Exception {
+        LOGGER.entering("writeUUID");
+        writeLong(uuid.getLeastSignificantBits());
+        writeLong(uuid.getMostSignificantBits());
+        LOGGER.exiting("writeUUID");
     }
 }

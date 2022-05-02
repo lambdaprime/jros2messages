@@ -23,7 +23,13 @@ import id.xfunction.logging.XLogger;
 import java.io.DataInput;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.UUID;
 
+/**
+ * Kinetic stream implementation for types deserialization in DDS format.
+ *
+ * @author aeon_flux aeon_flux@eclipso.ch
+ */
 public class DdsDataInput implements InputKineticStream {
 
     private static final XLogger LOGGER = XLogger.getLogger(DdsDataInput.class);
@@ -161,7 +167,9 @@ public class DdsDataInput implements InputKineticStream {
 
     @Override
     public long readLong() throws Exception {
-        throw new UnsupportedOperationException();
+        align(Long.BYTES);
+        position += Long.BYTES;
+        return Long.reverseBytes(in.readLong());
     }
 
     @Override
@@ -188,5 +196,14 @@ public class DdsDataInput implements InputKineticStream {
         }
         LOGGER.exiting("readStringArray");
         return array;
+    }
+
+    public UUID readUUID() throws Exception {
+        LOGGER.entering("readUUID");
+        var hi = readLong();
+        var lo = readLong();
+        var uuid = new UUID(lo, hi);
+        LOGGER.exiting("readUUID");
+        return uuid;
     }
 }

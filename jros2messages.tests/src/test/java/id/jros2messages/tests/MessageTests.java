@@ -25,6 +25,7 @@ import id.jros2messages.geometry_msgs.PolygonStampedMessage;
 import id.jros2messages.sensor_msgs.JointStateMessage;
 import id.jros2messages.sensor_msgs.PointCloud2Message;
 import id.jros2messages.std_msgs.HeaderMessage;
+import id.jros2messages.unique_identifier_msgs.UUIDMessage;
 import id.jros2messages.visualization_msgs.MarkerArrayMessage;
 import id.jros2messages.visualization_msgs.MarkerMessage;
 import id.jrosmessages.Message;
@@ -43,6 +44,7 @@ import id.jrosmessages.std_msgs.StringMessage;
 import id.xfunction.ResourceUtils;
 import id.xfunction.XByte;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -190,14 +192,12 @@ public class MessageTests {
                                                 .withStamp(new Time(1621056685, 970860000)))
                                 .withNames("joint_0", "joint_1", "joint_2", "joint_3", "joint_4")
                                 .withPositions(
-                                        new double[] {0.0, 0.0, 0.0, 0.767944870877505, 0.0})));
+                                        new double[] {0.0, 0.0, 0.0, 0.767944870877505, 0.0})),
                 // 21
-//                List.of(readResource("joint-state"), new Int32Message().withData(5)));
+                List.of(readResource("uuid"), new UUIDMessage(new UUID(0x10101020, 0x30101040))));
     }
 
-    /**
-     * Read resource removing new lines if any
-     */
+    /** Read resource removing new lines if any */
     private static String readResource(String resourceName) {
         var resource =
                 resourceUtils
@@ -211,8 +211,10 @@ public class MessageTests {
     @MethodSource("dataProvider")
     public void testRead(List testData) throws Exception {
         Object expected = testData.get(1);
-        Object actual = serializationUtils.read(XByte.fromHexPairs((String) testData.get(0)),
-                (Class<? extends Message>) expected.getClass());
+        Object actual =
+                serializationUtils.read(
+                        XByte.fromHexPairs((String) testData.get(0)),
+                        (Class<? extends Message>) expected.getClass());
         System.out.println(actual);
         assertEquals(expected, actual);
     }
@@ -220,7 +222,7 @@ public class MessageTests {
     @ParameterizedTest
     @MethodSource("dataProvider")
     public void testWrite(List testData) throws Exception {
-        var b = (Message)testData.get(1);
+        var b = (Message) testData.get(1);
         var out = serializationUtils.write(b);
         assertEquals(testData.get(0), XByte.toHexPairs(out));
     }

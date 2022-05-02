@@ -40,7 +40,9 @@ public class MessageSerializationUtils {
     public <M extends Message> M read(byte[] data, Class<M> clazz) {
         try {
             var dis = new DataInputStream(new ByteArrayInputStream(data));
-            var ks = new KineticStreamReader(new DdsDataInput(dis));
+            var ks =
+                    new KineticStreamReader(new DdsDataInput(dis))
+                            .withController(new Ros2KineticStreamReaderController());
             Object obj = ks.read(clazz);
             return (M) obj;
         } catch (Exception e) {
@@ -57,7 +59,9 @@ public class MessageSerializationUtils {
         try {
             var bos = new ByteArrayOutputStream();
             var dos = new DataOutputStream(bos);
-            var ks = new KineticStreamWriter(new DdsDataOutput(dos));
+            var ks =
+                    new KineticStreamWriter(new DdsDataOutput(dos))
+                            .withController(new Ros2KineticStreamWriterController());
             ks.write(message);
             return bos.toByteArray();
         } catch (Exception e) {

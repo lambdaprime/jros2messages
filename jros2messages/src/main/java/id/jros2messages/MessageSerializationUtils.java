@@ -46,7 +46,7 @@ public class MessageSerializationUtils {
             Object obj = ks.read(clazz);
             return (M) obj;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Problem reading " + clazz.getName(), e);
         }
     }
 
@@ -65,7 +65,7 @@ public class MessageSerializationUtils {
             ks.write(message);
             return bos.toByteArray();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Problem writing " + message.getClass().getName(), e);
         }
     }
 }

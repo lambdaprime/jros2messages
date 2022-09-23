@@ -19,7 +19,9 @@ package id.jros2messages.sensor_msgs;
 
 import id.jrosmessages.std_msgs.StringMessage;
 
-/** @author lambdaprime intid@protonmail.com */
+/**
+ * @author lambdaprime intid@protonmail.com
+ */
 public enum ImageEncoding {
     RGB8("rgb8"),
     RGBA8("rgba8"),

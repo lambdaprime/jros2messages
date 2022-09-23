@@ -3,6 +3,15 @@ plugins {
     id 'jacoco'
 }
 
+apply plugin : 'eclipse'
+
+eclipse.classpath.file {
+    // intruct eclipse plugin to put everything to module path
+    whenMerged {
+        entries.findAll { it.kind == 'lib' }.each { it.entryAttributes['module'] = 'true' }
+    }
+}
+
 dependencies {
     testImplementation project(':jros2messages')
     testImplementation 'io.github.lambdaprime:id.xfunction:17.0-SNAPSHOT'
@@ -15,6 +24,9 @@ dependencies {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport, jacocoTestCoverageVerification
+    testLogging {
+        events "started", "failed"
+    }
 }
 
 jacocoTestReport {

@@ -12,6 +12,15 @@ plugins {
     id 'com.diffplug.spotless'
 }
 
+apply plugin : 'eclipse'
+
+eclipse.classpath.file {
+    // instruct eclipse plugin to put everything to module path
+    whenMerged {
+        entries.findAll { it.kind == 'lib' }.each { it.entryAttributes['module'] = 'true' }
+    }
+}
+
 dependencies {
     implementation 'io.github.lambdaprime:kineticstreamer:4.0'
     implementation 'io.github.lambdaprime:jrosmessages:1.0-SNAPSHOT'
@@ -27,14 +36,6 @@ jar {
     }
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs += ["src/main/gen/java"]
-        }
-    }
-}
-
 javadoc {
     options.noTimestamp = true;
     options.noQualifiers = ["all"];
@@ -43,6 +44,14 @@ javadoc {
     options.noNavBar = true;
     // ignore missing @return, @param etc
     options.addBooleanOption('Xdoclint:all,-missing', true)
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs += ["src/main/gen/java"]
+        }
+    }
 }
 
 def packageDir = "$buildDir/package/${projectName}"

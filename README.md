@@ -20,7 +20,7 @@ dependencies {
 
 # Documentation
 
-[Documentation](http://portal2.atwebpages.com/jrosmessages)
+[Documentation](http://portal2.atwebpages.com/jrosclient)
 
 [Development](DEVELOPMENT.md)
 

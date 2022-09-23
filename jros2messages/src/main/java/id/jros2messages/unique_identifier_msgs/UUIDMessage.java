@@ -55,7 +55,7 @@ public class UUIDMessage implements Message {
         UUIDMessage other = (UUIDMessage) obj;
         return Objects.equals(uuid, other.uuid);
     }
-    
+
     public static UUIDMessage generate() {
         return new UUIDMessage(UUID.randomUUID());
     }

@@ -24,7 +24,7 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /** Definition for std_msgs/Header */
-@MessageMetadata(name = "std_msgs/Header", md5sum = "2176decaecbce78abc3b96ef049fabed")
+@MessageMetadata(name = "std_msgs/Header")
 public class HeaderMessage implements Message {
 
     public Time stamp = new Time();

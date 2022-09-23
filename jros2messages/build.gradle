@@ -13,11 +13,11 @@ plugins {
 }
 
 dependencies {
-    implementation 'io.github.lambdaprime:kineticstreamer:4.0-SNAPSHOT'
+    implementation 'io.github.lambdaprime:kineticstreamer:4.0'
     implementation 'io.github.lambdaprime:jrosmessages:1.0-SNAPSHOT'
 
     // transitively export following dependency to tests project
-    apiElements 'io.github.lambdaprime:kineticstreamer:4.0-SNAPSHOT'
+    apiElements 'io.github.lambdaprime:kineticstreamer:4.0'
     apiElements 'io.github.lambdaprime:jrosmessages:1.0-SNAPSHOT'
 }
 
@@ -120,7 +120,7 @@ if (project.hasProperty('publish')) {
         pom {
           name = 'jros2messages'
           description = 'Java module with ROS2 (Robot Operating System) message definitions'
-          url = 'http://portal2.atwebpages.com/jrosmessages'
+          url = 'http://portal2.atwebpages.com/jrosclient'
 
           licenses {
             license {

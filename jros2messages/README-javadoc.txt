@@ -1,1 +1,1 @@
-Javadoc is available here http://portal2.atwebpages.com/jrosmessages
+Javadoc is available here http://portal2.atwebpages.com/jrosclient

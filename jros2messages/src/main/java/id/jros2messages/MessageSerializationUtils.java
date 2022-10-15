@@ -27,7 +27,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
-/** Performs message (de)serialization (from)to stream of bytes. */
+/**
+ * Performs message (de)serialization (from)to stream of bytes.
+ *
+ * <p>Thread safe.
+ */
 public class MessageSerializationUtils {
 
     /**

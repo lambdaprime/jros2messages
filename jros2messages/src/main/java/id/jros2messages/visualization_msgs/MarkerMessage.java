@@ -17,6 +17,7 @@
  */
 package id.jros2messages.visualization_msgs;
 
+import id.jros2messages.sensor_msgs.CompressedImageMessage;
 import id.jros2messages.std_msgs.HeaderMessage;
 import id.jrosmessages.Message;
 import id.jrosmessages.MessageMetadata;
@@ -31,7 +32,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /** Definition for visualization_msgs/Marker */
-@MessageMetadata(name = MarkerMessage.NAME, md5sum = "4048c9de2a16f4ae8e0538085ebf1b97")
+@MessageMetadata(name = MarkerMessage.NAME)
 public class MarkerMessage implements Message {
 
     static final String NAME = "visualization_msgs/Marker";
@@ -103,11 +104,33 @@ public class MarkerMessage implements Message {
      */
     public ColorRGBAMessage[] colors = new ColorRGBAMessage[0];
 
+    /**
+     * Texture resource is a special URI that can either reference a texture file in a format
+     * acceptable to (resource retriever)[https://index.ros.org/p/resource_retriever/] or an
+     * embedded texture via a string matching the format: "embedded://texture_name"
+     */
+    public StringMessage texture_resource = new StringMessage();
+
+    /**
+     * An image to be loaded into the rendering engine as the texture for this marker. This will be
+     * used iff texture_resource is set to embedded.
+     */
+    public CompressedImageMessage texture = new CompressedImageMessage();
+
+    /** Location of each vertex within the texture; in the range: [0.0-1.0] */
+    public UVCoordinateMessage[] uv_coordinates = new UVCoordinateMessage[0];
+
     /** Only used for text markers */
     public StringMessage text = new StringMessage();
 
     /** Only used for MESH_RESOURCE markers */
     public StringMessage mesh_resource = new StringMessage();
+
+    /**
+     * Optionally, a mesh file can be sent in-message via the mesh_file field. If doing so, use the
+     * following format for mesh_resource: "embedded://mesh_name"
+     */
+    public MeshFileMessage mesh_file = new MeshFileMessage();
 
     /** If this marker should be frame-locked, i.e. retransformed into its frame every timestep */
     public boolean mesh_use_embedded_materials;
@@ -167,8 +190,28 @@ public class MarkerMessage implements Message {
         return this;
     }
 
+    public MarkerMessage withTextureResource(StringMessage texture_resource) {
+        this.texture_resource = texture_resource;
+        return this;
+    }
+
+    public MarkerMessage withTexture(CompressedImageMessage texture) {
+        this.texture = texture;
+        return this;
+    }
+
+    public MarkerMessage withUvCoordinates(UVCoordinateMessage[] uv_coordinates) {
+        this.uv_coordinates = uv_coordinates;
+        return this;
+    }
+
     public MarkerMessage withMeshUseEmbeddedMaterials(boolean mesh_use_embedded_materials) {
         this.mesh_use_embedded_materials = mesh_use_embedded_materials;
+        return this;
+    }
+
+    public MarkerMessage withMeshFile(MeshFileMessage mesh_file) {
+        this.mesh_file = mesh_file;
         return this;
     }
 
@@ -187,7 +230,11 @@ public class MarkerMessage implements Message {
                 "frame_locked", frame_locked,
                 "points", Arrays.toString(points),
                 "colors", Arrays.toString(colors),
+                "uv_coordinates", Arrays.toString(uv_coordinates),
+                "texture_resource", texture_resource,
+                "texture", texture,
                 "mesh_resource", mesh_resource,
+                "mesh_file", mesh_file,
                 "text", text,
                 "mesh_use_embedded_materials", mesh_use_embedded_materials);
     }
@@ -207,7 +254,11 @@ public class MarkerMessage implements Message {
                 frame_locked,
                 Arrays.hashCode(points),
                 Arrays.hashCode(colors),
+                Arrays.hashCode(uv_coordinates),
+                texture_resource,
+                texture,
                 mesh_resource,
+                mesh_file,
                 text,
                 mesh_use_embedded_materials);
     }
@@ -227,7 +278,11 @@ public class MarkerMessage implements Message {
                 && Objects.equals(frame_locked, other.frame_locked)
                 && Arrays.equals(points, other.points)
                 && Arrays.equals(colors, other.colors)
+                && Arrays.equals(uv_coordinates, other.uv_coordinates)
+                && Objects.equals(texture_resource, other.texture_resource)
+                && Objects.equals(texture, other.texture)
                 && Objects.equals(mesh_resource, other.mesh_resource)
+                && Objects.equals(mesh_file, other.mesh_file)
                 && Objects.equals(text, other.text)
                 && mesh_use_embedded_materials == other.mesh_use_embedded_materials;
     }

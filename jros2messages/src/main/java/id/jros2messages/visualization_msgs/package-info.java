@@ -19,5 +19,5 @@
  * Authors:
  * - lambdaprime <intid@protonmail.com>
  */
-/** Java message definitions for ROS visualization_msgs package */
+/** Java message definitions for ROS2 visualization_msgs package */
 package id.jros2messages.visualization_msgs;

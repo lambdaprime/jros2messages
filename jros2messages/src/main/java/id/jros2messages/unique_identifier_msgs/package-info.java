@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 /**
- * Java message definitions for ROS unique_identifier_msgs package
+ * Java message definitions for ROS2 unique_identifier_msgs package
  *
  * @author aeon_flux aeon_flux@eclipso.ch
  */

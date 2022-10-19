@@ -19,5 +19,5 @@
  * Authors:
  * - lambdaprime <intid@protonmail.com>
  */
-/** Java message definitions for ROS1 geometry_msgs package */
+/** Java message definitions for ROS2 geometry_msgs package */
 package id.jros2messages.geometry_msgs;

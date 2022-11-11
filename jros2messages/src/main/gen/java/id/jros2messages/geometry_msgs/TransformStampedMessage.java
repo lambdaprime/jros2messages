@@ -30,7 +30,7 @@ import java.util.Objects;
  * header.frame_id # to the coordinate frame child_frame_id # # This message is mostly used by the #
  * <a href="http://wiki.ros.org/tf">tf</a> package. # See its documentation for more information.
  */
-@MessageMetadata(name = TransformStampedMessage.NAME, md5sum = "c788bacd82271109656949f89891ee39")
+@MessageMetadata(name = TransformStampedMessage.NAME)
 public class TransformStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/TransformStamped";

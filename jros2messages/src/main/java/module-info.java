@@ -40,6 +40,7 @@ module jros2messages {
     exports id.jros2messages.geometry_msgs;
     exports id.jros2messages.visualization_msgs;
     exports id.jros2messages.sensor_msgs;
+    exports id.jros2messages.shape_msgs;
     exports id.jros2messages.trajectory_msgs;
     exports id.jros2messages.object_recognition_msgs;
     exports id.jros2messages.octomap_msgs;

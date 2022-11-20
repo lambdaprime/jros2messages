@@ -15,9 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * Authors:
- * - lambdaprime <intid@protonmail.com>
+/**
+ * Java message definitions for ROS2 geometry_msgs package
+ *
+ * @author lambdaprime intid@protonmail.com
  */
-/** Java message definitions for ROS2 geometry_msgs package */
 package id.jros2messages.geometry_msgs;

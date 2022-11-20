@@ -31,6 +31,8 @@ import java.io.DataOutputStream;
  * Performs message (de)serialization (from)to stream of bytes.
  *
  * <p>Thread safe.
+ *
+ * @author lambdaprime intid@protonmail.com
  */
 public class MessageSerializationUtils {
 

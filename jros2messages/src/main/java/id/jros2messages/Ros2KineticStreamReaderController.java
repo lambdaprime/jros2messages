@@ -23,7 +23,7 @@ import id.kineticstreamer.KineticStreamReaderController;
 import java.util.UUID;
 
 /**
- * @author aeon_flux aeon_flux@eclipso.ch
+ * @author lambdaprime intid@protonmail.com
  */
 class Ros2KineticStreamReaderController extends KineticStreamReaderController {
 

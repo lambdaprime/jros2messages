@@ -17,23 +17,25 @@
  */
 package id.jros2messages;
 
-import id.jros2messages.impl.DdsDataOutput;
-import id.kineticstreamer.KineticStreamWriterController;
-import id.kineticstreamer.OutputKineticStream;
-import java.util.UUID;
+import id.jros2messages.geometry_msgs.PoseStampedMessage;
+import id.jrosmessages.geometry_msgs.PoseMessage;
+import id.jrosmessages.primitives.Time;
 
 /**
+ * Message objects transformers.
+ *
+ * <p>For performance reasons they avoid copying data and copy references instead.
+ *
  * @author lambdaprime intid@protonmail.com
  */
-class Ros2KineticStreamWriterController extends KineticStreamWriterController {
+public class JRos2MessagesTransformer {
 
-    @Override
-    public Result onNextObject(OutputKineticStream in, Object obj) throws Exception {
-        var rtpsStream = (DdsDataOutput) in;
-        if (obj instanceof UUID uuid) {
-            rtpsStream.writeUUID(uuid);
-            return new Result(true);
-        }
-        return Result.CONTINUE;
+    public PoseStampedMessage toStampedPose(String frameId, PoseMessage poseMessage) {
+        var stampedMessage = new PoseStampedMessage();
+        // dont set timestamp since it can expire and cause errors
+        stampedMessage.header.stamp = new Time();
+        stampedMessage.header.frame_id = frameId;
+        stampedMessage.pose = poseMessage;
+        return stampedMessage;
     }
 }

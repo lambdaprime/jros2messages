@@ -1,81 +1,82 @@
 // include xfunction for updateVersion
 buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "io.github.lambdaprime:id.xfunction:14.0"
-    }
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath "io.github.lambdaprime:id.xfunction:14.0"
+  }
 }
 
 plugins {
-    id 'com.diffplug.spotless'
+  id 'com.diffplug.spotless'
 }
 
 apply plugin : 'eclipse'
 
 eclipse.classpath.file {
-    // instruct eclipse plugin to put everything to module path
-    whenMerged {
-        entries.findAll { it.kind == 'lib' }.each { it.entryAttributes['module'] = 'true' }
-    }
+  // instruct eclipse plugin to put everything to module path
+  whenMerged {
+    entries.findAll { it.kind == 'lib' }.each { it.entryAttributes['module'] = 'true' }
+  }
 }
 
 dependencies {
-    implementation 'io.github.lambdaprime:kineticstreamer:4.0'
-    implementation 'io.github.lambdaprime:jrosmessages:1.0'
-
-    // transitively export following dependency to tests project
-    apiElements 'io.github.lambdaprime:kineticstreamer:4.0'
-    apiElements 'io.github.lambdaprime:jrosmessages:1.0'
+  addDependencies(this, ["implementation", "apiElements"], "2.0", [
+    "io.github.lambdaprime:jrosmessages"
+  ]);
+  addDependencies(this, ["implementation", "apiElements"], "5.0", [
+    "io.github.lambdaprime:kineticstreamer"
+  ]);
 }
 
 jar {
-    manifest { 
-        attributes 'Implementation-Version': "${rootProject.version}"
-    }
+  manifest { 
+    attributes 'Implementation-Version': "${rootProject.version}"
+  }
 }
 
 javadoc {
-    options.noTimestamp = true
-    options.noQualifiers = ["all"]
-    options.noTree = true
-    options.noIndex = true
-    options.noNavBar = true
-    // ignore missing @return, @param etc
-    options.addBooleanOption('Xdoclint:all,-missing', true)
+  options.noTimestamp = true
+  options.noQualifiers = ["all"]
+  options.noTree = true
+  options.noIndex = true
+  options.noNavBar = true
+  // ignore missing @return, @param etc
+  options.addBooleanOption('Xdoclint:all,-missing', true)
 }
 
 sourceSets {
-    main {
-        java {
-            srcDirs += ["src/main/gen/java"]
-        }
+  main {
+    java {
+      srcDirs += ["src/main/gen/java"]
     }
+  }
 }
 
 def packageDir = "$buildDir/package/${projectName}"
 
 task createRelease(type: Zip) {
-    archiveFileName = "$releaseFileName"
-    destinationDirectory = file("$projectDir/release")
-    from file("$packageDir/..")
+  archiveFileName = "$releaseFileName"
+  destinationDirectory = file("$projectDir/release")
+  from file("$packageDir/..")
 }
 
 task copyLibs(type: Copy) {
-    from configurations.runtimeClasspath
-    from jar.archiveFile
-    into "${packageDir}/libs"
+  from configurations.runtimeClasspath
+  from jar.archiveFile
+  into "${packageDir}/libs"
 }
 
 task createPackage(type: Copy, dependsOn: [copyLibs]) {
-    from "${project.rootDir}/README.md"
-    from "${project.rootDir}/LICENSE-2.0.txt"
-    into packageDir
+  from "${project.rootDir}/README.md"
+  from "${project.rootDir}/LICENSE-2.0.txt"
+  into packageDir
 }
 
 task cleanRelease(type: Delete) {
-    delete "$projectDir/release"
+  delete "$packageDir"
+  delete "$projectDir/release/*-SNAPSHOT.zip"
 }
 
 createRelease.dependsOn createPackage, javadoc
@@ -89,13 +90,13 @@ if (project.hasProperty('publish')) {
 
   // update version only during publishing
   task updateVersion() {
-      if (version.contains("SNAPSHOT")) return;
-      println "Updating version to " + version
-      new id.xfunction.text.Substitutor()
-          .withRegexpSupport()
-          .substitute(java.nio.file.Paths.get("${project.rootDir}/README.md"), Map.of(
-              "io.github.lambdaprime:jros2messages:[0-9.]+", "io.github.lambdaprime:jros2messages:" + version
-          ));
+    if (version.contains("SNAPSHOT")) return;
+    println "Updating version to " + version
+    new id.xfunction.text.Substitutor()
+      .withRegexpSupport()
+      .substitute(java.nio.file.Paths.get("${project.rootDir}/README.md"), Map.of(
+        "io.github.lambdaprime:jros2messages:[0-9.]+", "io.github.lambdaprime:jros2messages:" + version
+      ));
   }
   createPackage.dependsOn updateVersion
 

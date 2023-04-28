@@ -10,6 +10,7 @@ buildscript {
 
 plugins {
   id 'com.diffplug.spotless'
+  id 'java-library'
 }
 
 apply plugin : 'eclipse'
@@ -22,12 +23,8 @@ eclipse.classpath.file {
 }
 
 dependencies {
-  addDependencies(this, ["implementation", "apiElements"], "2.0", [
-    "io.github.lambdaprime:jrosmessages"
-  ]);
-  addDependencies(this, ["implementation", "apiElements"], "5.0", [
-    "io.github.lambdaprime:kineticstreamer"
-  ]);
+  api "io.github.lambdaprime:jrosmessages:3.0-SNAPSHOT"
+  api "io.github.lambdaprime:kineticstreamer:5.0"
 }
 
 jar {
@@ -83,29 +80,40 @@ createRelease.dependsOn createPackage, javadoc
 assemble.dependsOn createRelease
 clean.dependsOn cleanRelease
 
+task copyReadme(type: Copy) {
+  from("../README.md")
+  into("$buildDir/resources/main")
+  rename ("README.md", "README-${projectName}.md")
+}
+
+// overwrite template README which comes from resources folder
+jar.dependsOn copyReadme
+javadoc.dependsOn copyReadme
+
 // run spotless and format code before the build
 classes.dependsOn spotlessApply
 
-if (project.hasProperty('publish')) {
+task updateVersion() {
+  // update version only when it is specified and non SNAPSHOT version is built
+  // 'unspecified' is the default value for the version in Gradle if it is not set
+  if (!version || version == "unspecified" || version.contains("SNAPSHOT")) return;
+  println "Updating version to " + version
+  new id.xfunction.text.Substitutor()
+    .withRegexpSupport()
+    .substitute(java.nio.file.Paths.get("${project.rootDir}/README.md"), Map.of(
+      "io.github.lambdaprime:jros2messages:[0-9.]+", "io.github.lambdaprime:jros2messages:" + version
+    ));
+}
+createRelease.dependsOn updateVersion
 
-  // update version only during publishing
-  task updateVersion() {
-    if (version.contains("SNAPSHOT")) return;
-    println "Updating version to " + version
-    new id.xfunction.text.Substitutor()
-      .withRegexpSupport()
-      .substitute(java.nio.file.Paths.get("${project.rootDir}/README.md"), Map.of(
-        "io.github.lambdaprime:jros2messages:[0-9.]+", "io.github.lambdaprime:jros2messages:" + version
-      ));
-  }
-  createPackage.dependsOn updateVersion
+if (project.hasProperty('publish')) {
 
   // Initially it was taken from https://central.sonatype.org/publish/publish-gradle/
   // but since Gradle removed this plugin https://docs.gradle.org/7.0/userguide/upgrading_version_6.html#removal_of_the_legacy_maven_plugin
   // it was rewritten for new one
 
   task javadocJar(type: Jar) {
-    classifier = 'javadoc'
+    archiveClassifier = 'javadoc'
     from "README-javadoc.txt"
   }
 

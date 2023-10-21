@@ -10,6 +10,7 @@ buildscript {
 
 plugins {
   id 'com.diffplug.spotless'
+  // only if you build Java library
   id 'java-library'
 }
 

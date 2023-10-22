@@ -206,4 +206,14 @@ public class DdsDataInput implements InputKineticStream {
         LOGGER.exiting("readUUID");
         return uuid;
     }
+
+    @Override
+    public char readChar() throws Exception {
+        throw new UnsupportedOperationException(MessageConstants.CHAR_ERROR);
+    }
+
+    @Override
+    public char[] readCharArray(char[] arg0) throws Exception {
+        throw new UnsupportedOperationException(MessageConstants.CHAR_ARRAY_ERROR);
+    }
 }

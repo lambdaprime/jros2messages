@@ -165,4 +165,14 @@ public class DdsDataOutput implements OutputKineticStream {
         writeLong(uuid.getMostSignificantBits());
         LOGGER.exiting("writeUUID");
     }
+
+    @Override
+    public void writeChar(Character ch) throws Exception {
+        throw new UnsupportedOperationException(MessageConstants.CHAR_ERROR);
+    }
+
+    @Override
+    public void writeCharArray(char[] array) throws Exception {
+        throw new UnsupportedOperationException(MessageConstants.CHAR_ARRAY_ERROR);
+    }
 }

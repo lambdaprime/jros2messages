@@ -107,7 +107,10 @@ public class DdsDataOutput implements OutputKineticStream {
 
     @Override
     public void writeIntArray(int[] array) throws Exception {
-        throw new UnsupportedOperationException();
+        writeLen(array.length);
+        for (var item : array) {
+            writeInt(item);
+        }
     }
 
     @Override
@@ -174,5 +177,13 @@ public class DdsDataOutput implements OutputKineticStream {
     @Override
     public void writeCharArray(char[] array) throws Exception {
         throw new UnsupportedOperationException(MessageConstants.CHAR_ARRAY_ERROR);
+    }
+
+    @Override
+    public void writeFloatArray(float[] array) throws Exception {
+        writeLen(array.length);
+        for (var item : array) {
+            writeFloat(item);
+        }
     }
 }

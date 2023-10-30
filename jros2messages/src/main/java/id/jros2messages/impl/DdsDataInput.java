@@ -140,7 +140,13 @@ public class DdsDataInput implements InputKineticStream {
 
     @Override
     public int[] readIntArray(int[] array) throws Exception {
-        throw new UnsupportedOperationException();
+        LOGGER.entering("readIntArray");
+        array = new int[readLen()];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = readInt();
+        }
+        LOGGER.exiting("readIntArray");
+        return array;
     }
 
     @Override
@@ -215,5 +221,16 @@ public class DdsDataInput implements InputKineticStream {
     @Override
     public char[] readCharArray(char[] arg0) throws Exception {
         throw new UnsupportedOperationException(MessageConstants.CHAR_ARRAY_ERROR);
+    }
+
+    @Override
+    public float[] readFloatArray(float[] array) throws Exception {
+        LOGGER.entering("readFloatArray");
+        array = new float[readLen()];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = readFloat();
+        }
+        LOGGER.exiting("readFloatArray");
+        return array;
     }
 }

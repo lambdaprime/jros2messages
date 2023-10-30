@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import id.jros2messages.MessageSerializationUtils;
 import id.jros2messages.geometry_msgs.PolygonStampedMessage;
 import id.jros2messages.sensor_msgs.JointStateMessage;
+import id.jros2messages.sensor_msgs.JoyMessage;
 import id.jros2messages.sensor_msgs.PointCloud2Message;
 import id.jros2messages.std_msgs.HeaderMessage;
 import id.jros2messages.unique_identifier_msgs.UUIDMessage;
@@ -194,7 +195,16 @@ public class MessageTests {
                                 .withPositions(
                                         new double[] {0.0, 0.0, 0.0, 0.767944870877505, 0.0})),
                 // 21
-                List.of(readResource("uuid"), new UUIDMessage(new UUID(0x10101020, 0x30101040))));
+                List.of(readResource("uuid"), new UUIDMessage(new UUID(0x10101020, 0x30101040))),
+                // 22
+                List.of(
+                        readResource("joy"),
+                        new JoyMessage()
+                                .withHeader(
+                                        new HeaderMessage()
+                                                .withStamp(new Time(1621056685, 970860000)))
+                                .withAxes(3.3F, 3.2F, 3.1F)
+                                .withButtons(5, 6, 7)));
     }
 
     /** Read resource removing new lines if any */

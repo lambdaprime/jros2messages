@@ -19,13 +19,19 @@ package id.jros2messages;
 
 import id.jros2messages.impl.DdsDataInput;
 import id.jros2messages.impl.DdsDataOutput;
+import id.jrosmessages.JRosMessageMetrics;
 import id.jrosmessages.Message;
 import id.kineticstreamer.KineticStreamReader;
 import id.kineticstreamer.KineticStreamWriter;
+import io.opentelemetry.api.GlobalOpenTelemetry;
+import io.opentelemetry.api.metrics.LongHistogram;
+import io.opentelemetry.api.metrics.Meter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.time.Duration;
+import java.time.Instant;
 
 /**
  * Performs message (de)serialization (from)to stream of bytes.
@@ -35,6 +41,20 @@ import java.io.DataOutputStream;
  * @author lambdaprime intid@protonmail.com
  */
 public class MessageSerializationUtils {
+    private final Meter METER =
+            GlobalOpenTelemetry.getMeter(MessageSerializationUtils.class.getSimpleName());
+    private final LongHistogram MESSAGE_SERIALIZATION_TIME_METER =
+            METER.histogramBuilder(JRosMessageMetrics.MESSAGE_SERIALIZATION_TIME_METRIC)
+                    .setDescription(
+                            JRosMessageMetrics.MESSAGE_SERIALIZATION_TIME_METRIC_DESCRIPTION)
+                    .ofLongs()
+                    .build();
+    private final LongHistogram MESSAGE_DESERIALIZATION_TIME_METER =
+            METER.histogramBuilder(JRosMessageMetrics.MESSAGE_DESERIALIZATION_TIME_METRIC)
+                    .setDescription(
+                            JRosMessageMetrics.MESSAGE_DESERIALIZATION_TIME_METRIC_DESCRIPTION)
+                    .ofLongs()
+                    .build();
 
     /**
      * Deserialize message from byte stream
@@ -44,6 +64,7 @@ public class MessageSerializationUtils {
      * @param clazz message class
      */
     public <M extends Message> M read(byte[] data, Class<M> clazz) {
+        var startAt = Instant.now();
         try {
             var dis = new DataInputStream(new ByteArrayInputStream(data));
             var ks =
@@ -53,6 +74,9 @@ public class MessageSerializationUtils {
             return (M) obj;
         } catch (Exception e) {
             throw new RuntimeException("Problem reading " + clazz.getName(), e);
+        } finally {
+            MESSAGE_SERIALIZATION_TIME_METER.record(
+                    Duration.between(startAt, Instant.now()).toMillis());
         }
     }
 
@@ -62,6 +86,7 @@ public class MessageSerializationUtils {
      * @param message message to serialize
      */
     public byte[] write(Message message) {
+        var startAt = Instant.now();
         try {
             var bos = new ByteArrayOutputStream();
             var dos = new DataOutputStream(bos);
@@ -72,6 +97,9 @@ public class MessageSerializationUtils {
             return bos.toByteArray();
         } catch (Exception e) {
             throw new RuntimeException("Problem writing " + message.getClass().getName(), e);
+        } finally {
+            MESSAGE_DESERIALIZATION_TIME_METER.record(
+                    Duration.between(startAt, Instant.now()).toMillis());
         }
     }
 }

@@ -34,6 +34,7 @@ module jros2messages {
     requires transitive jrosmessages;
     requires id.xfunction;
     requires id.kineticstreamer;
+    requires io.opentelemetry.api;
 
     exports id.jros2messages;
     exports id.jros2messages.std_msgs;

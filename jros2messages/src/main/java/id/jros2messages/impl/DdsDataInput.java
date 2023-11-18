@@ -19,10 +19,11 @@ package id.jros2messages.impl;
 
 import id.kineticstreamer.InputKineticStream;
 import id.kineticstreamer.KineticStreamReader;
+import id.xfunction.Preconditions;
 import id.xfunction.logging.XLogger;
-import java.io.DataInput;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.nio.ByteBuffer;
 import java.util.UUID;
 
 /**
@@ -34,24 +35,21 @@ public class DdsDataInput implements InputKineticStream {
 
     private static final XLogger LOGGER = XLogger.getLogger(DdsDataInput.class);
 
-    private DataInput in;
-    private int position;
+    private ByteBuffer in;
 
-    public DdsDataInput(DataInput in) {
-        this.in = in;
+    public DdsDataInput(ByteBuffer in) {
+        this.in = in.order(MessageConstants.ROS2_BYTE_ORDER);
     }
 
     @Override
     public int readInt() throws IOException {
         align(Integer.BYTES);
-        position += Integer.BYTES;
-        return Integer.reverseBytes(in.readInt());
+        return in.getInt();
     }
 
     private void align(int n) throws IOException {
-        while (position % n != 0) {
-            in.readByte();
-            position++;
+        while (in.position() % n != 0) {
+            in.get();
         }
     }
 
@@ -60,9 +58,9 @@ public class DdsDataInput implements InputKineticStream {
         LOGGER.entering("readString");
         int len = readLen();
         byte[] b = new byte[len];
-        in.readFully(b);
+        in.get(b);
         var value = new String(b, 0, len - 1);
-        position += len;
+        Preconditions.equals(0, b[len - 1], "Null byte expected");
         LOGGER.exiting("readString", value);
         return value;
     }
@@ -75,10 +73,7 @@ public class DdsDataInput implements InputKineticStream {
     public double readDouble() throws IOException {
         LOGGER.entering("readDouble");
         align(Double.BYTES);
-        var value =
-                Double.longBitsToDouble(
-                        Long.reverseBytes(Double.doubleToRawLongBits(in.readDouble())));
-        position += Double.BYTES;
+        var value = in.getDouble();
         LOGGER.exiting("readDouble", value);
         return value;
     }
@@ -87,9 +82,7 @@ public class DdsDataInput implements InputKineticStream {
     public float readFloat() throws IOException {
         LOGGER.entering("readFloat");
         align(Float.BYTES);
-        var value =
-                Float.intBitsToFloat(Integer.reverseBytes(Float.floatToRawIntBits(in.readFloat())));
-        position += Float.BYTES;
+        var value = in.getFloat();
         LOGGER.exiting("readFloat", value);
         return value;
     }
@@ -121,8 +114,7 @@ public class DdsDataInput implements InputKineticStream {
     @Override
     public byte readByte() throws IOException {
         LOGGER.entering("readByte");
-        var value = in.readByte();
-        position++;
+        var value = in.get();
         LOGGER.exiting("readByte");
         return value;
     }
@@ -131,9 +123,7 @@ public class DdsDataInput implements InputKineticStream {
     public byte[] readByteArray(byte[] array) throws Exception {
         LOGGER.entering("readByteArray");
         array = new byte[readLen()];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = readByte();
-        }
+        in.get(array);
         LOGGER.exiting("readByteArray");
         return array;
     }
@@ -142,8 +132,11 @@ public class DdsDataInput implements InputKineticStream {
     public int[] readIntArray(int[] array) throws Exception {
         LOGGER.entering("readIntArray");
         array = new int[readLen()];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = readInt();
+        if (array.length > 0) {
+            align(Integer.BYTES);
+            var tmpBuf = in.asIntBuffer();
+            tmpBuf.get(array);
+            in.position(in.position() + array.length * Integer.BYTES);
         }
         LOGGER.exiting("readIntArray");
         return array;
@@ -153,8 +146,11 @@ public class DdsDataInput implements InputKineticStream {
     public double[] readDoubleArray(double[] array) throws Exception {
         LOGGER.entering("readDoubleArray");
         array = new double[readLen()];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = readDouble();
+        if (array.length > 0) {
+            align(Double.BYTES);
+            var tmpBuf = in.asDoubleBuffer();
+            tmpBuf.get(array);
+            in.position(in.position() + array.length * Double.BYTES);
         }
         LOGGER.exiting("readDoubleArray");
         return array;
@@ -163,9 +159,10 @@ public class DdsDataInput implements InputKineticStream {
     @Override
     public boolean[] readBooleanArray(boolean[] array) throws Exception {
         LOGGER.entering("readBooleanArray");
-        array = new boolean[readLen()];
+        var b = readByteArray(null);
+        array = new boolean[b.length];
         for (int i = 0; i < array.length; i++) {
-            array[i] = readBool();
+            array[i] = b[i] == 1;
         }
         LOGGER.exiting("readBooleanArray");
         return array;
@@ -174,8 +171,7 @@ public class DdsDataInput implements InputKineticStream {
     @Override
     public long readLong() throws Exception {
         align(Long.BYTES);
-        position += Long.BYTES;
-        return Long.reverseBytes(in.readLong());
+        return in.getLong();
     }
 
     @Override
@@ -227,8 +223,11 @@ public class DdsDataInput implements InputKineticStream {
     public float[] readFloatArray(float[] array) throws Exception {
         LOGGER.entering("readFloatArray");
         array = new float[readLen()];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = readFloat();
+        if (array.length > 0) {
+            align(Float.BYTES);
+            var tmpBuf = in.asFloatBuffer();
+            tmpBuf.get(array);
+            in.position(in.position() + array.length * Float.BYTES);
         }
         LOGGER.exiting("readFloatArray");
         return array;

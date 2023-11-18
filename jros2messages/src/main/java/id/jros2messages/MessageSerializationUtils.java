@@ -26,10 +26,9 @@ import id.kineticstreamer.KineticStreamWriter;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.metrics.LongHistogram;
 import io.opentelemetry.api.metrics.Meter;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.nio.ByteBuffer;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -66,9 +65,9 @@ public class MessageSerializationUtils {
     public <M extends Message> M read(byte[] data, Class<M> clazz) {
         var startAt = Instant.now();
         try {
-            var dis = new DataInputStream(new ByteArrayInputStream(data));
+            var buf = ByteBuffer.wrap(data);
             var ks =
-                    new KineticStreamReader(new DdsDataInput(dis))
+                    new KineticStreamReader(new DdsDataInput(buf))
                             .withController(new Ros2KineticStreamReaderController());
             Object obj = ks.read(clazz);
             return (M) obj;

@@ -22,6 +22,7 @@ import id.kineticstreamer.OutputKineticStream;
 import id.xfunction.logging.XLogger;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.UUID;
 
 /**
@@ -108,33 +109,45 @@ public class DdsDataOutput implements OutputKineticStream {
     @Override
     public void writeIntArray(int[] array) throws Exception {
         writeLen(array.length);
-        for (var item : array) {
-            writeInt(item);
+        if (array.length > 0) {
+            align(Integer.BYTES);
+            var buf = new byte[array.length * Integer.BYTES];
+            ByteBuffer.wrap(buf).order(MessageConstants.ROS2_BYTE_ORDER).asIntBuffer().put(array);
+            out.write(buf);
+            position += buf.length;
         }
     }
 
     @Override
     public void writeByteArray(byte[] array) throws Exception {
         writeLen(array.length);
-        for (var item : array) {
-            writeByte(item);
-        }
+        out.write(array);
+        position += array.length;
     }
 
     @Override
     public void writeDoubleArray(double[] array) throws Exception {
         writeLen(array.length);
-        for (var item : array) {
-            writeDouble(item);
+        if (array.length > 0) {
+            align(Double.BYTES);
+            var buf = new byte[array.length * Double.BYTES];
+            ByteBuffer.wrap(buf)
+                    .order(MessageConstants.ROS2_BYTE_ORDER)
+                    .asDoubleBuffer()
+                    .put(array);
+            out.write(buf);
+            position += buf.length;
         }
     }
 
     @Override
     public void writeBooleanArray(boolean[] array) throws Exception {
         writeLen(array.length);
-        for (var item : array) {
-            writeBoolean(item);
+        var buf = new byte[array.length];
+        for (int i = 0; i < buf.length; i++) {
+            buf[i] = array[i] ? (byte) 1 : (byte) 0;
         }
+        writeByteArray(buf);
     }
 
     @Override
@@ -182,8 +195,12 @@ public class DdsDataOutput implements OutputKineticStream {
     @Override
     public void writeFloatArray(float[] array) throws Exception {
         writeLen(array.length);
-        for (var item : array) {
-            writeFloat(item);
+        if (array.length > 0) {
+            align(Float.BYTES);
+            var buf = new byte[array.length * Float.BYTES];
+            ByteBuffer.wrap(buf).order(MessageConstants.ROS2_BYTE_ORDER).asFloatBuffer().put(array);
+            out.write(buf);
+            position += buf.length;
         }
     }
 }

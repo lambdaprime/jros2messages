@@ -17,10 +17,14 @@
  */
 package id.jros2messages.impl;
 
+import java.nio.ByteOrder;
+
 /**
  * @author lambdaprime intid@protonmail.com
  */
 public interface MessageConstants {
+    ByteOrder ROS2_BYTE_ORDER = ByteOrder.LITTLE_ENDIAN;
+
     String CHAR_ERROR =
             "ROS built-in type char in jrosclient Java Message definitions should be mapped to"
                     + " byte. Please update your Java Message class and use byte instead of char."

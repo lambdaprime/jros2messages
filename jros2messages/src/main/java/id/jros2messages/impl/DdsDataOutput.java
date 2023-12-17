@@ -112,7 +112,10 @@ public class DdsDataOutput implements OutputKineticStream {
         if (array.length > 0) {
             align(Integer.BYTES);
             var buf = new byte[array.length * Integer.BYTES];
-            ByteBuffer.wrap(buf).order(MessageConstants.ROS2_BYTE_ORDER).asIntBuffer().put(array);
+            ByteBuffer.wrap(buf)
+                    .order(JRos2MessagesConstants.ROS2_BYTE_ORDER)
+                    .asIntBuffer()
+                    .put(array);
             out.write(buf);
             position += buf.length;
         }
@@ -132,7 +135,7 @@ public class DdsDataOutput implements OutputKineticStream {
             align(Double.BYTES);
             var buf = new byte[array.length * Double.BYTES];
             ByteBuffer.wrap(buf)
-                    .order(MessageConstants.ROS2_BYTE_ORDER)
+                    .order(JRos2MessagesConstants.ROS2_BYTE_ORDER)
                     .asDoubleBuffer()
                     .put(array);
             out.write(buf);
@@ -184,12 +187,12 @@ public class DdsDataOutput implements OutputKineticStream {
 
     @Override
     public void writeChar(Character ch) throws Exception {
-        throw new UnsupportedOperationException(MessageConstants.CHAR_ERROR);
+        throw new UnsupportedOperationException(JRos2MessagesConstants.CHAR_ERROR);
     }
 
     @Override
     public void writeCharArray(char[] array) throws Exception {
-        throw new UnsupportedOperationException(MessageConstants.CHAR_ARRAY_ERROR);
+        throw new UnsupportedOperationException(JRos2MessagesConstants.CHAR_ARRAY_ERROR);
     }
 
     @Override
@@ -198,7 +201,10 @@ public class DdsDataOutput implements OutputKineticStream {
         if (array.length > 0) {
             align(Float.BYTES);
             var buf = new byte[array.length * Float.BYTES];
-            ByteBuffer.wrap(buf).order(MessageConstants.ROS2_BYTE_ORDER).asFloatBuffer().put(array);
+            ByteBuffer.wrap(buf)
+                    .order(JRos2MessagesConstants.ROS2_BYTE_ORDER)
+                    .asFloatBuffer()
+                    .put(array);
             out.write(buf);
             position += buf.length;
         }

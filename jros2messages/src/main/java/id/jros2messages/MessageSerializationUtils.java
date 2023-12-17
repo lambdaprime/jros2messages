@@ -19,6 +19,7 @@ package id.jros2messages;
 
 import id.jros2messages.impl.DdsDataInput;
 import id.jros2messages.impl.DdsDataOutput;
+import id.jros2messages.impl.JRos2MessagesConstants;
 import id.jrosmessages.JRosMessageMetrics;
 import id.jrosmessages.Message;
 import id.kineticstreamer.KineticStreamReader;
@@ -75,7 +76,8 @@ public class MessageSerializationUtils {
             throw new RuntimeException("Problem reading " + clazz.getName(), e);
         } finally {
             MESSAGE_SERIALIZATION_TIME_METER.record(
-                    Duration.between(startAt, Instant.now()).toMillis());
+                    Duration.between(startAt, Instant.now()).toMillis(),
+                    JRos2MessagesConstants.JROS2MESSAGES_ATTRS);
         }
     }
 
@@ -98,7 +100,8 @@ public class MessageSerializationUtils {
             throw new RuntimeException("Problem writing " + message.getClass().getName(), e);
         } finally {
             MESSAGE_DESERIALIZATION_TIME_METER.record(
-                    Duration.between(startAt, Instant.now()).toMillis());
+                    Duration.between(startAt, Instant.now()).toMillis(),
+                    JRos2MessagesConstants.JROS2MESSAGES_ATTRS);
         }
     }
 }

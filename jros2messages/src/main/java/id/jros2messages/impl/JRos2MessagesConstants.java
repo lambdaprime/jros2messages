@@ -17,13 +17,23 @@
  */
 package id.jros2messages.impl;
 
+import io.opentelemetry.api.common.Attributes;
 import java.nio.ByteOrder;
 
 /**
  * @author lambdaprime intid@protonmail.com
  */
-public interface MessageConstants {
+public interface JRos2MessagesConstants {
     ByteOrder ROS2_BYTE_ORDER = ByteOrder.LITTLE_ENDIAN;
+
+    /**
+     * Unique attributes for jros2messages specific metrics.
+     *
+     * <p>Many metrics are shared between all jrosmessages implementations: jros2messages,
+     * jros1messages. These attributes allow to identify metrics for jros2messages.
+     */
+    @SuppressWarnings("exports")
+    Attributes JROS2MESSAGES_ATTRS = Attributes.builder().put("RosVersion", "ROS2").build();
 
     String CHAR_ERROR =
             "ROS built-in type char in jrosclient Java Message definitions should be mapped to"

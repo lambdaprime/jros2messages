@@ -38,7 +38,7 @@ public class DdsDataInput implements InputKineticStream {
     private ByteBuffer in;
 
     public DdsDataInput(ByteBuffer in) {
-        this.in = in.order(MessageConstants.ROS2_BYTE_ORDER);
+        this.in = in.order(JRos2MessagesConstants.ROS2_BYTE_ORDER);
     }
 
     @Override
@@ -211,12 +211,12 @@ public class DdsDataInput implements InputKineticStream {
 
     @Override
     public char readChar() throws Exception {
-        throw new UnsupportedOperationException(MessageConstants.CHAR_ERROR);
+        throw new UnsupportedOperationException(JRos2MessagesConstants.CHAR_ERROR);
     }
 
     @Override
     public char[] readCharArray(char[] arg0) throws Exception {
-        throw new UnsupportedOperationException(MessageConstants.CHAR_ARRAY_ERROR);
+        throw new UnsupportedOperationException(JRos2MessagesConstants.CHAR_ARRAY_ERROR);
     }
 
     @Override

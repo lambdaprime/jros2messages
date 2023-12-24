@@ -1,3 +1,15 @@
+# Version 4
+
+- Adding Android build support
+- Integrating metrics
+- Issue lambdaprime/jros2client#5 Use bulk operations to improve performance of RTPS message (de)serialization
+- Adding metrics
+- Issue lambdaprime/jros2client#6 Adding support for int[], float[], adding sensor_msgs/Joy message
+- Issue lambdaprime/jros2client#3 Show error for char fields
+- Gradle update
+
+[jros2messages-v4.0.zip](https://github.com/lambdaprime/jros2messages/raw/main/jros2messages/release/jros2messages-v4.0.zip)
+
 # Version 3
 
 - Updating to Gradle 8.0.2

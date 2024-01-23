@@ -75,7 +75,7 @@ public class MessageSerializationUtils {
         } catch (Exception e) {
             throw new RuntimeException("Problem reading " + clazz.getName(), e);
         } finally {
-            MESSAGE_SERIALIZATION_TIME_METER.record(
+            MESSAGE_DESERIALIZATION_TIME_METER.record(
                     Duration.between(startAt, Instant.now()).toMillis(),
                     JRos2MessagesConstants.JROS2MESSAGES_ATTRS);
         }
@@ -99,7 +99,7 @@ public class MessageSerializationUtils {
         } catch (Exception e) {
             throw new RuntimeException("Problem writing " + message.getClass().getName(), e);
         } finally {
-            MESSAGE_DESERIALIZATION_TIME_METER.record(
+            MESSAGE_SERIALIZATION_TIME_METER.record(
                     Duration.between(startAt, Instant.now()).toMillis(),
                     JRos2MessagesConstants.JROS2MESSAGES_ATTRS);
         }

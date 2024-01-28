@@ -17,11 +17,14 @@
  */
 package id.jros2messages.impl;
 
+import static id.kineticstreamer.KineticStreamConstants.EMPTY_ANNOTATIONS;
+
 import id.kineticstreamer.KineticStreamWriter;
 import id.kineticstreamer.OutputKineticStream;
 import id.xfunction.logging.XLogger;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
@@ -41,7 +44,18 @@ public class DdsDataOutput implements OutputKineticStream {
     }
 
     public void writeLen(int len) throws IOException {
-        writeInt(len);
+        writeInt(len, EMPTY_ANNOTATIONS);
+    }
+
+    private void writeArraySize(int len, Annotation[] fieldAnnotations) throws IOException {
+        LOGGER.entering("writeArraySize");
+        for (int i = 0; i < fieldAnnotations.length; i++) {
+            if (fieldAnnotations[i] instanceof id.jrosmessages.Array a) {
+                if (a.size() > 0) return;
+            }
+        }
+        writeLen(len);
+        LOGGER.exiting("writeArraySize");
     }
 
     private void align(int n) throws IOException {
@@ -52,7 +66,7 @@ public class DdsDataOutput implements OutputKineticStream {
     }
 
     @Override
-    public void writeString(String str) throws IOException {
+    public void writeString(String str, Annotation[] fieldAnnotations) throws IOException {
         var len = str.length();
         len++; // null byte
         writeLen(len);
@@ -62,34 +76,34 @@ public class DdsDataOutput implements OutputKineticStream {
     }
 
     @Override
-    public void writeInt(Integer i) throws IOException {
+    public void writeInt(Integer i, Annotation[] fieldAnnotations) throws IOException {
         align(Integer.BYTES);
         out.writeInt(Integer.reverseBytes(i));
         position += Integer.BYTES;
     }
 
     @Override
-    public void writeDouble(Double f) throws IOException {
+    public void writeDouble(Double f, Annotation[] fieldAnnotations) throws IOException {
         align(Double.BYTES);
         out.writeDouble(Double.longBitsToDouble(Long.reverseBytes(Double.doubleToRawLongBits(f))));
         position += Double.BYTES;
     }
 
     @Override
-    public void writeFloat(Float f) throws IOException {
+    public void writeFloat(Float f, Annotation[] fieldAnnotations) throws IOException {
         align(Float.BYTES);
         out.writeFloat(Float.intBitsToFloat(Integer.reverseBytes(Float.floatToRawIntBits(f))));
         position += Float.BYTES;
     }
 
     @Override
-    public void writeBoolean(Boolean b) throws IOException {
-        writeByte(b ? (byte) 1 : (byte) 0);
+    public void writeBoolean(Boolean b, Annotation[] fieldAnnotations) throws IOException {
+        writeByte(b ? (byte) 1 : (byte) 0, fieldAnnotations);
     }
 
     @Override
-    public void writeArray(Object[] array) throws Exception {
-        writeLen(array.length);
+    public void writeArray(Object[] array, Annotation[] fieldAnnotations) throws Exception {
+        writeArraySize(array.length, fieldAnnotations);
         for (var item : array) {
             new KineticStreamWriter(this).write(item);
         }
@@ -101,14 +115,14 @@ public class DdsDataOutput implements OutputKineticStream {
     }
 
     @Override
-    public void writeByte(Byte b) throws IOException {
+    public void writeByte(Byte b, Annotation[] fieldAnnotations) throws IOException {
         out.writeByte(b);
         position++;
     }
 
     @Override
-    public void writeIntArray(int[] array) throws Exception {
-        writeLen(array.length);
+    public void writeIntArray(int[] array, Annotation[] fieldAnnotations) throws Exception {
+        writeArraySize(array.length, fieldAnnotations);
         if (array.length > 0) {
             align(Integer.BYTES);
             var buf = new byte[array.length * Integer.BYTES];
@@ -122,15 +136,15 @@ public class DdsDataOutput implements OutputKineticStream {
     }
 
     @Override
-    public void writeByteArray(byte[] array) throws Exception {
-        writeLen(array.length);
+    public void writeByteArray(byte[] array, Annotation[] fieldAnnotations) throws Exception {
+        writeArraySize(array.length, fieldAnnotations);
         out.write(array);
         position += array.length;
     }
 
     @Override
-    public void writeDoubleArray(double[] array) throws Exception {
-        writeLen(array.length);
+    public void writeDoubleArray(double[] array, Annotation[] fieldAnnotations) throws Exception {
+        writeArraySize(array.length, fieldAnnotations);
         if (array.length > 0) {
             align(Double.BYTES);
             var buf = new byte[array.length * Double.BYTES];
@@ -144,59 +158,59 @@ public class DdsDataOutput implements OutputKineticStream {
     }
 
     @Override
-    public void writeBooleanArray(boolean[] array) throws Exception {
-        writeLen(array.length);
+    public void writeBooleanArray(boolean[] array, Annotation[] fieldAnnotations) throws Exception {
+        writeArraySize(array.length, fieldAnnotations);
         var buf = new byte[array.length];
         for (int i = 0; i < buf.length; i++) {
             buf[i] = array[i] ? (byte) 1 : (byte) 0;
         }
-        writeByteArray(buf);
+        writeByteArray(buf, EMPTY_ANNOTATIONS);
     }
 
     @Override
-    public void writeLong(Long l) throws Exception {
+    public void writeLong(Long l, Annotation[] fieldAnnotations) throws Exception {
         align(Long.BYTES);
         out.writeLong(Long.reverseBytes(l));
         position += Long.BYTES;
     }
 
     @Override
-    public void writeShort(Short arg0) throws Exception {
+    public void writeShort(Short arg0, Annotation[] fieldAnnotations) throws Exception {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void writeShortArray(short[] arg0) throws Exception {
+    public void writeShortArray(short[] arg0, Annotation[] fieldAnnotations) throws Exception {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void writeStringArray(String[] array) throws Exception {
-        writeLen(array.length);
+    public void writeStringArray(String[] array, Annotation[] fieldAnnotations) throws Exception {
+        writeArraySize(array.length, fieldAnnotations);
         for (var item : array) {
-            writeString(item);
+            writeString(item, EMPTY_ANNOTATIONS);
         }
     }
 
     public void writeUUID(UUID uuid) throws Exception {
         LOGGER.entering("writeUUID");
-        writeLong(uuid.getLeastSignificantBits());
-        writeLong(uuid.getMostSignificantBits());
+        writeLong(uuid.getLeastSignificantBits(), EMPTY_ANNOTATIONS);
+        writeLong(uuid.getMostSignificantBits(), EMPTY_ANNOTATIONS);
         LOGGER.exiting("writeUUID");
     }
 
     @Override
-    public void writeChar(Character ch) throws Exception {
+    public void writeChar(Character ch, Annotation[] fieldAnnotations) throws Exception {
         throw new UnsupportedOperationException(JRos2MessagesConstants.CHAR_ERROR);
     }
 
     @Override
-    public void writeCharArray(char[] array) throws Exception {
+    public void writeCharArray(char[] array, Annotation[] fieldAnnotations) throws Exception {
         throw new UnsupportedOperationException(JRos2MessagesConstants.CHAR_ARRAY_ERROR);
     }
 
     @Override
-    public void writeFloatArray(float[] array) throws Exception {
+    public void writeFloatArray(float[] array, Annotation[] fieldAnnotations) throws Exception {
         writeLen(array.length);
         if (array.length > 0) {
             align(Float.BYTES);

@@ -24,9 +24,9 @@ eclipse.classpath.file {
 }
 
 dependencies {
-  api "io.github.lambdaprime:jrosmessages:5.0-SNAPSHOT"
-  api "io.github.lambdaprime:kineticstreamer:6.0"
-  api "io.opentelemetry:opentelemetry-api:1.22.0"
+  api "io.github.lambdaprime:jrosmessages:5.0"
+  api "io.github.lambdaprime:kineticstreamer:7.0"
+  api "io.opentelemetry:opentelemetry-api:1.34.1"
 }
 
 jar {

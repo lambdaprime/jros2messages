@@ -27,6 +27,7 @@ import id.jros2messages.sensor_msgs.JoyMessage;
 import id.jros2messages.sensor_msgs.PointCloud2Message;
 import id.jros2messages.std_msgs.HeaderMessage;
 import id.jros2messages.unique_identifier_msgs.UUIDMessage;
+import id.jros2messages.vision_msgs.ObjectHypothesisWithPoseMessage;
 import id.jros2messages.visualization_msgs.MarkerArrayMessage;
 import id.jros2messages.visualization_msgs.MarkerMessage;
 import id.jrosmessages.Message;
@@ -34,6 +35,7 @@ import id.jrosmessages.geometry_msgs.Point32Message;
 import id.jrosmessages.geometry_msgs.PointMessage;
 import id.jrosmessages.geometry_msgs.PolygonMessage;
 import id.jrosmessages.geometry_msgs.PoseMessage;
+import id.jrosmessages.geometry_msgs.PoseWithCovarianceMessage;
 import id.jrosmessages.geometry_msgs.QuaternionMessage;
 import id.jrosmessages.geometry_msgs.Vector3Message;
 import id.jrosmessages.primitives.Duration;
@@ -204,7 +206,18 @@ public class MessageTests {
                                         new HeaderMessage()
                                                 .withStamp(new Time(1621056685, 970860000)))
                                 .withAxes(3.3F, 3.2F, 3.1F)
-                                .withButtons(5, 6, 7)));
+                                .withButtons(5, 6, 7)),
+                // 23
+                List.of(
+                        readResource("obj_hypothesis"),
+                        new ObjectHypothesisWithPoseMessage()
+                                .withPose(
+                                        new PoseWithCovarianceMessage()
+                                                .withCovariance(
+                                                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+                                                        14, 15.56, 16, 17, 18, 19, 20, 21, 22, 23,
+                                                        24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
+                                                        35, 36))));
     }
 
     /** Read resource removing new lines if any */

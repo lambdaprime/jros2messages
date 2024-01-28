@@ -1,3 +1,10 @@
+# Version 5
+
+- Issue lambdaprime/jros2client#9 fixing messages with fixed size arrays
+- Issue lambdaprime/jros2client#9 Adding vision_msgs
+
+[jros2messages-v5.0.zip](https://github.com/lambdaprime/jros2messages/raw/main/jros2messages/release/jros2messages-v5.0.zip)
+
 # Version 4
 
 - Adding Android build support

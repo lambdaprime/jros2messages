@@ -24,7 +24,9 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /** Definition for std_msgs/Header */
-@MessageMetadata(name = "std_msgs/Header")
+@MessageMetadata(
+        name = "std_msgs/Header",
+        fields = {"stamp", "frame_id"})
 public class HeaderMessage implements Message {
 
     public Time stamp = new Time();

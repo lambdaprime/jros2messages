@@ -25,12 +25,14 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for geometry_msgs/TwistWithCovarianceStamped This represents an estimated twist with
- * reference coordinate frame and timestamp.
+ * Definition for geometry_msgs/TwistWithCovarianceStamped
+ *
+ * <p>This represents an estimated twist with reference coordinate frame and timestamp. This
+ * represents an estimated twist with reference coordinate frame and timestamp.
  */
 @MessageMetadata(
         name = TwistWithCovarianceStampedMessage.NAME,
-        md5sum = "f59b87b044187f26ef66329003c3d275")
+        fields = {"header", "twist"})
 public class TwistWithCovarianceStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/TwistWithCovarianceStamped";

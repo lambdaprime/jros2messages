@@ -26,11 +26,20 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for geometry_msgs/TransformStamped This expresses a transform from coordinate frame
- * header.frame_id # to the coordinate frame child_frame_id # # This message is mostly used by the #
- * <a href="http://wiki.ros.org/tf">tf</a> package. # See its documentation for more information.
+ * Definition for geometry_msgs/TransformStamped
+ *
+ * <p>This expresses a transform from coordinate frame header.frame_id to the coordinate frame
+ * child_frame_id at the time of header.stamp
+ *
+ * <p>This message is mostly used by the <a href="https://index.ros.org/p/tf2/">tf2</a> package. See
+ * its documentation for more information.
+ *
+ * <p>The child_frame_id is necessary in addition to the frame_id in the Header to communicate the
+ * full reference for the transform in a self contained message.
  */
-@MessageMetadata(name = TransformStampedMessage.NAME)
+@MessageMetadata(
+        name = TransformStampedMessage.NAME,
+        fields = {"header", "child_frame_id", "transform"})
 public class TransformStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/TransformStamped";

@@ -25,12 +25,14 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for geometry_msgs/PoseWithCovarianceStamped This expresses an estimated pose with a
- * reference coordinate frame and timestamp
+ * Definition for geometry_msgs/PoseWithCovarianceStamped
+ *
+ * <p>This expresses an estimated pose with a reference coordinate frame and timestamp This
+ * expresses an estimated pose with a reference coordinate frame and timestamp
  */
 @MessageMetadata(
         name = PoseWithCovarianceStampedMessage.NAME,
-        md5sum = "729039794eaab042b403222dbf81e197")
+        fields = {"header", "pose"})
 public class PoseWithCovarianceStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/PoseWithCovarianceStamped";

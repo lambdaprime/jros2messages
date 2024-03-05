@@ -22,8 +22,11 @@ import id.jros2messages.impl.DdsDataOutput;
 import id.jros2messages.impl.JRos2MessagesConstants;
 import id.jrosmessages.JRosMessageMetrics;
 import id.jrosmessages.Message;
+import id.jrosmessages.MessageMetadataAccessor;
 import id.kineticstreamer.KineticStreamReader;
 import id.kineticstreamer.KineticStreamWriter;
+import id.kineticstreamer.PublicStreamedFieldsProvider;
+import id.kineticstreamer.StreamedFieldsProvider;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.metrics.LongHistogram;
 import io.opentelemetry.api.metrics.Meter;
@@ -56,6 +59,11 @@ public class MessageSerializationUtils {
                     .ofLongs()
                     .build();
 
+    private static final MessageMetadataAccessor METADATA_ACCESSOR = new MessageMetadataAccessor();
+    private static final StreamedFieldsProvider FIELDS_PROVIDER =
+            new PublicStreamedFieldsProvider(
+                    clazz -> METADATA_ACCESSOR.getFields((Class<Message>) clazz));
+
     /**
      * Deserialize message from byte stream
      *
@@ -69,7 +77,9 @@ public class MessageSerializationUtils {
             var buf = ByteBuffer.wrap(data);
             var ks =
                     new KineticStreamReader(new DdsDataInput(buf))
-                            .withController(new Ros2KineticStreamReaderController());
+                            .withController(
+                                    new Ros2KineticStreamController()
+                                            .withFieldsProvider(FIELDS_PROVIDER));
             Object obj = ks.read(clazz);
             return (M) obj;
         } catch (Exception e) {
@@ -91,9 +101,10 @@ public class MessageSerializationUtils {
         try {
             var bos = new ByteArrayOutputStream();
             var dos = new DataOutputStream(bos);
+            var controller = new Ros2KineticStreamController().withFieldsProvider(FIELDS_PROVIDER);
             var ks =
-                    new KineticStreamWriter(new DdsDataOutput(dos))
-                            .withController(new Ros2KineticStreamWriterController());
+                    new KineticStreamWriter(new DdsDataOutput(dos, controller))
+                            .withController(controller);
             ks.write(message);
             return bos.toByteArray();
         } catch (Exception e) {

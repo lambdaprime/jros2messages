@@ -24,8 +24,15 @@ import id.jrosmessages.geometry_msgs.PolygonMessage;
 import id.xfunction.XJson;
 import java.util.Objects;
 
-/** Definition for geometry_msgs/PolygonStamped */
-@MessageMetadata(name = PolygonStampedMessage.NAME, md5sum = "c6be8f7dc3bee7fe9e8d296070f53340")
+/**
+ * Definition for geometry_msgs/PolygonStamped
+ *
+ * <p>This represents a Polygon with reference coordinate frame and timestamp This represents a
+ * Polygon with reference coordinate frame and timestamp
+ */
+@MessageMetadata(
+        name = PolygonStampedMessage.NAME,
+        fields = {"header", "polygon"})
 public class PolygonStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/PolygonStamped";

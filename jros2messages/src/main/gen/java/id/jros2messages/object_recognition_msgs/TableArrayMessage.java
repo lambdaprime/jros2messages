@@ -25,7 +25,9 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /** Definition for object_recognition_msgs/TableArray */
-@MessageMetadata(name = TableArrayMessage.NAME, md5sum = "cb3563a52bcb782c2c0d28e3e9a3dc50")
+@MessageMetadata(
+        name = TableArrayMessage.NAME,
+        fields = {"header", "tables"})
 public class TableArrayMessage implements Message {
 
     static final String NAME = "object_recognition_msgs/TableArray";

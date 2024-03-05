@@ -24,8 +24,14 @@ import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
 
-/** Definition for msg/MeshFile Used to send raw mesh files. */
-@MessageMetadata(name = MeshFileMessage.NAME)
+/**
+ * Definition for visualization_msgs/MeshFile
+ *
+ * <p>Used to send raw mesh files.
+ */
+@MessageMetadata(
+        name = MeshFileMessage.NAME,
+        fields = {"filename", "data"})
 public class MeshFileMessage implements Message {
 
     static final String NAME = "visualization_msgs/MeshFile";

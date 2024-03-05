@@ -24,11 +24,14 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for vision_msgs/ObjectHypothesisWithPose An object hypothesis that contains pose
- * information. # If you would like to define an array of ObjectHypothesisWithPose messages, #
- * please see the Detection2D or Detection3D message types.
+ * Definition for vision_msgs/ObjectHypothesisWithPose
+ *
+ * <p>An object hypothesis that contains pose information. If you would like to define an array of
+ * ObjectHypothesisWithPose messages, please see the Detection2D or Detection3D message types.
  */
-@MessageMetadata(name = ObjectHypothesisWithPoseMessage.NAME)
+@MessageMetadata(
+        name = ObjectHypothesisWithPoseMessage.NAME,
+        fields = {"hypothesis", "pose"})
 public class ObjectHypothesisWithPoseMessage implements Message {
 
     static final String NAME = "vision_msgs/ObjectHypothesisWithPose";

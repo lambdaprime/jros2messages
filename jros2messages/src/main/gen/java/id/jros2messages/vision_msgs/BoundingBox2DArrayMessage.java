@@ -25,7 +25,9 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /** Definition for vision_msgs/BoundingBox2DArray */
-@MessageMetadata(name = BoundingBox2DArrayMessage.NAME)
+@MessageMetadata(
+        name = BoundingBox2DArrayMessage.NAME,
+        fields = {"header", "boxes"})
 public class BoundingBox2DArrayMessage implements Message {
 
     static final String NAME = "vision_msgs/BoundingBox2DArray";

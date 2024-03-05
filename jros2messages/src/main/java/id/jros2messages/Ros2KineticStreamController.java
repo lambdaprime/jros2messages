@@ -17,23 +17,35 @@
  */
 package id.jros2messages;
 
+import id.jros2messages.impl.DdsDataInput;
 import id.jros2messages.impl.DdsDataOutput;
-import id.kineticstreamer.KineticStreamWriterController;
+import id.kineticstreamer.InputKineticStream;
+import id.kineticstreamer.KineticStreamController;
 import id.kineticstreamer.OutputKineticStream;
 import java.util.UUID;
 
 /**
  * @author lambdaprime intid@protonmail.com
  */
-class Ros2KineticStreamWriterController extends KineticStreamWriterController {
+class Ros2KineticStreamController extends KineticStreamController {
 
     @Override
-    public Result onNextObject(OutputKineticStream in, Object obj) throws Exception {
+    public ReaderResult onNextObject(InputKineticStream in, Object obj, Class<?> fieldType)
+            throws Exception {
+        var rtpsStream = (DdsDataInput) in;
+        if (fieldType == UUID.class) {
+            return new ReaderResult(true, rtpsStream.readUUID());
+        }
+        return ReaderResult.CONTINUE;
+    }
+
+    @Override
+    public WriterResult onNextObject(OutputKineticStream in, Object obj) throws Exception {
         var rtpsStream = (DdsDataOutput) in;
         if (obj instanceof UUID uuid) {
             rtpsStream.writeUUID(uuid);
-            return new Result(true);
+            return new WriterResult(true);
         }
-        return Result.CONTINUE;
+        return WriterResult.CONTINUE;
     }
 }

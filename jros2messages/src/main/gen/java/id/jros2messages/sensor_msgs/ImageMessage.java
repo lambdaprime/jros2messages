@@ -26,10 +26,13 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Definition for msg/Image This message contains an uncompressed image # (0, 0) is at top-left
- * corner of image
+ * Definition for sensor_msgs/Image
+ *
+ * <p>This message contains an uncompressed image (0, 0) is at top-left corner of image
  */
-@MessageMetadata(name = ImageMessage.NAME)
+@MessageMetadata(
+        name = ImageMessage.NAME,
+        fields = {"header", "height", "width", "encoding", "is_bigendian", "step", "data"})
 public class ImageMessage implements Message {
 
     static final String NAME = "sensor_msgs/Image";

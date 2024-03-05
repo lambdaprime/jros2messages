@@ -25,9 +25,14 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for geometry_msgs/WrenchStamped A wrench with reference coordinate frame and timestamp
+ * Definition for geometry_msgs/WrenchStamped
+ *
+ * <p>A wrench with reference coordinate frame and timestamp A wrench with reference coordinate
+ * frame and timestamp
  */
-@MessageMetadata(name = WrenchStampedMessage.NAME, md5sum = "150502b356390fb151385ef7647f633e")
+@MessageMetadata(
+        name = WrenchStampedMessage.NAME,
+        fields = {"header", "wrench"})
 public class WrenchStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/WrenchStamped";

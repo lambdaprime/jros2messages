@@ -23,10 +23,15 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for vision_msgs/Pose2D Represents a 2D pose (coordinates and a radian rotation).
- * Rotation is positive counterclockwise.
+ * Definition for vision_msgs/Pose2D
+ *
+ * <p>Represents a 2D pose (coordinates and a radian rotation). Rotation is positive
+ * counterclockwise. Represents a 2D pose (coordinates and a radian rotation). Rotation is positive
+ * counterclockwise.
  */
-@MessageMetadata(name = Pose2DMessage.NAME)
+@MessageMetadata(
+        name = Pose2DMessage.NAME,
+        fields = {"position", "theta"})
 public class Pose2DMessage implements Message {
 
     static final String NAME = "vision_msgs/Pose2D";

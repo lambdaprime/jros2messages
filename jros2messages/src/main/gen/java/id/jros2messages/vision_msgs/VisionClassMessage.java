@@ -24,10 +24,14 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for vision_msgs/VisionClass A key value pair that maps an integer class_id to a string
- * class label # in computer vision systems.
+ * Definition for vision_msgs/VisionClass
+ *
+ * <p>A key value pair that maps an integer class_id to a string class label in computer vision
+ * systems.
  */
-@MessageMetadata(name = VisionClassMessage.NAME)
+@MessageMetadata(
+        name = VisionClassMessage.NAME,
+        fields = {"class_id", "class_name"})
 public class VisionClassMessage implements Message {
 
     static final String NAME = "vision_msgs/VisionClass";

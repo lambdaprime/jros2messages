@@ -25,9 +25,13 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for geometry_msgs/AccelStamped An accel with reference coordinate frame and timestamp
+ * Definition for geometry_msgs/AccelStamped
+ *
+ * <p>An accel with reference coordinate frame and timestamp
  */
-@MessageMetadata(name = AccelStampedMessage.NAME, md5sum = "b50c8c69ae37bb74d3cffd798577ca70")
+@MessageMetadata(
+        name = AccelStampedMessage.NAME,
+        fields = {"header", "accel"})
 public class AccelStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/AccelStamped";

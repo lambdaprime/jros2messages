@@ -29,8 +29,23 @@ import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
 
-/** Definition for object_recognition_msgs/RecognizedObject */
-@MessageMetadata(name = RecognizedObjectMessage.NAME, md5sum = "8f315f16dac3cf3fefc414afb91cc13b")
+/**
+ * Definition for object_recognition_msgs/RecognizedObject
+ *
+ * <p>#################################################### HEADER
+ * ###########################################################
+ */
+@MessageMetadata(
+        name = RecognizedObjectMessage.NAME,
+        fields = {
+            "header",
+            "type",
+            "confidence",
+            "point_clouds",
+            "bounding_mesh",
+            "bounding_contours",
+            "pose"
+        })
 public class RecognizedObjectMessage implements Message {
 
     static final String NAME = "object_recognition_msgs/RecognizedObject";

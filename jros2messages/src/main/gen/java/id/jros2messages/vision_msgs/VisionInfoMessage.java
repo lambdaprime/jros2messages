@@ -26,15 +26,20 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for vision_msgs/VisionInfo Provides meta-information about a visual pipeline. # # This
- * message serves a similar purpose to sensor_msgs/CameraInfo, but instead # of being tied to
- * hardware, it represents information about a specific # computer vision pipeline. This information
- * stays constant (or relatively # constant) over time, and so it is wasteful to send it with each
- * individual # result. By listening to these messages, subscribers will receive # the context in
- * which published vision messages are to be interpreted. # Each vision pipeline should publish its
- * VisionInfo messages to its own topic, # in a manner similar to CameraInfo.
+ * Definition for vision_msgs/VisionInfo
+ *
+ * <p>Provides meta-information about a visual pipeline.
+ *
+ * <p>This message serves a similar purpose to sensor_msgs/CameraInfo, but instead of being tied to
+ * hardware, it represents information about a specific computer vision pipeline. This information
+ * stays constant (or relatively constant) over time, and so it is wasteful to send it with each
+ * individual result. By listening to these messages, subscribers will receive the context in which
+ * published vision messages are to be interpreted. Each vision pipeline should publish its
+ * VisionInfo messages to its own topic, in a manner similar to CameraInfo.
  */
-@MessageMetadata(name = VisionInfoMessage.NAME)
+@MessageMetadata(
+        name = VisionInfoMessage.NAME,
+        fields = {"header", "method", "database_location", "database_version"})
 public class VisionInfoMessage implements Message {
 
     static final String NAME = "vision_msgs/VisionInfo";

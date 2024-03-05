@@ -25,8 +25,29 @@ import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
 
-/** Definition for sensor_msgs/PointCloud2 */
-@MessageMetadata(name = PointCloud2Message.NAME, md5sum = "1158d486dd51d683ce2f1be655c3c181")
+/**
+ * Definition for sensor_msgs/PointCloud2
+ *
+ * <p>This message holds a collection of N-dimensional points, which may contain additional
+ * information such as normals, intensity, etc. The point data is stored as a binary blob, its
+ * layout described by the contents of the "fields" array.
+ *
+ * <p>The point cloud data may be organized 2d (image-like) or 1d (unordered). Point clouds
+ * organized as 2d images may be produced by camera depth sensors such as stereo or time-of-flight.
+ */
+@MessageMetadata(
+        name = PointCloud2Message.NAME,
+        fields = {
+            "header",
+            "height",
+            "width",
+            "fields",
+            "is_bigendian",
+            "point_step",
+            "row_step",
+            "data",
+            "is_dense"
+        })
 public class PointCloud2Message implements Message {
 
     static final String NAME = "sensor_msgs/PointCloud2";

@@ -23,12 +23,15 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for vision_msgs/BoundingBox2D A 2D bounding box that can be rotated about its center.
- * # All dimensions are in pixels, but represented using floating-point # values to allow sub-pixel
- * precision. If an exact pixel crop is required # for a rotated bounding box, it can be calculated
- * using Bresenham's line # algorithm.
+ * Definition for vision_msgs/BoundingBox2D
+ *
+ * <p>A 2D bounding box that can be rotated about its center. All dimensions are in pixels, but
+ * represented using floating-point values to allow sub-pixel precision. If an exact pixel crop is
+ * required for a rotated bounding box, it can be calculated using Bresenham's line algorithm.
  */
-@MessageMetadata(name = BoundingBox2DMessage.NAME)
+@MessageMetadata(
+        name = BoundingBox2DMessage.NAME,
+        fields = {"center", "size_x", "size_y"})
 public class BoundingBox2DMessage implements Message {
 
     static final String NAME = "vision_msgs/BoundingBox2D";

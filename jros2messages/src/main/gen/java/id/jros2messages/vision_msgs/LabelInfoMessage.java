@@ -25,17 +25,22 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Definition for vision_msgs/LabelInfo Provides meta-information about a visual pipeline. # # This
- * message serves a similar purpose to sensor_msgs/CameraInfo, but instead # of being tied to
- * hardware, it represents information about a specific # computer vision pipeline. This information
- * stays constant (or relatively # constant) over time, and so it is wasteful to send it with each
- * individual # result. By listening to these messages, subscribers will receive # the context in
- * which published vision messages are to be interpreted. # Each vision pipeline should publish its
- * LabelInfo messages to its own topic, # in a manner similar to CameraInfo. # This message is meant
- * to allow converting data from vision pipelines that # return id based classifications back to
- * human readable string class names.
+ * Definition for vision_msgs/LabelInfo
+ *
+ * <p>Provides meta-information about a visual pipeline.
+ *
+ * <p>This message serves a similar purpose to sensor_msgs/CameraInfo, but instead of being tied to
+ * hardware, it represents information about a specific computer vision pipeline. This information
+ * stays constant (or relatively constant) over time, and so it is wasteful to send it with each
+ * individual result. By listening to these messages, subscribers will receive the context in which
+ * published vision messages are to be interpreted. Each vision pipeline should publish its
+ * LabelInfo messages to its own topic, in a manner similar to CameraInfo. This message is meant to
+ * allow converting data from vision pipelines that return id based classifications back to human
+ * readable string class names.
  */
-@MessageMetadata(name = LabelInfoMessage.NAME)
+@MessageMetadata(
+        name = LabelInfoMessage.NAME,
+        fields = {"header", "class_map", "threshold"})
 public class LabelInfoMessage implements Message {
 
     static final String NAME = "vision_msgs/LabelInfo";

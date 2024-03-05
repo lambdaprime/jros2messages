@@ -25,7 +25,9 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /** Definition for octomap_msgs/OctomapWithPose */
-@MessageMetadata(name = OctomapWithPoseMessage.NAME, md5sum = "2be6b076e8442bde71254392e50395ab")
+@MessageMetadata(
+        name = OctomapWithPoseMessage.NAME,
+        fields = {"header", "origin", "octomap"})
 public class OctomapWithPoseMessage implements Message {
 
     static final String NAME = "octomap_msgs/OctomapWithPose";

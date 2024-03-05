@@ -25,8 +25,14 @@ import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
 
-/** Definition for msg/CompressedImage This message contains a compressed image. */
-@MessageMetadata(name = CompressedImageMessage.NAME)
+/**
+ * Definition for sensor_msgs/CompressedImage
+ *
+ * <p>This message contains a compressed image.
+ */
+@MessageMetadata(
+        name = CompressedImageMessage.NAME,
+        fields = {"header", "format", "data"})
 public class CompressedImageMessage implements Message {
 
     static final String NAME = "sensor_msgs/CompressedImage";

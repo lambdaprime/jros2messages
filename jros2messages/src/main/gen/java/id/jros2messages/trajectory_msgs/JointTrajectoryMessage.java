@@ -27,7 +27,9 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /** Definition for trajectory_msgs/JointTrajectory */
-@MessageMetadata(name = JointTrajectoryMessage.NAME, md5sum = "6b718af7f0350f5032ea5cc522f1b1bd")
+@MessageMetadata(
+        name = JointTrajectoryMessage.NAME,
+        fields = {"header", "joint_names", "points"})
 public class JointTrajectoryMessage implements Message {
 
     static final String NAME = "trajectory_msgs/JointTrajectory";

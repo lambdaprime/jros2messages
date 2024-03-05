@@ -24,8 +24,14 @@ import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
 
-/** Definition for sensor_msgs/Joy Reports the state of a joystick's axes and buttons. */
-@MessageMetadata(name = JoyMessage.NAME)
+/**
+ * Definition for sensor_msgs/Joy
+ *
+ * <p>Reports the state of a joystick's axes and buttons.
+ */
+@MessageMetadata(
+        name = JoyMessage.NAME,
+        fields = {"header", "axes", "buttons"})
 public class JoyMessage implements Message {
 
     static final String NAME = "sensor_msgs/Joy";

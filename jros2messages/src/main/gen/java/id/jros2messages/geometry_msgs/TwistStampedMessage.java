@@ -25,9 +25,14 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for geometry_msgs/TwistStamped A twist with reference coordinate frame and timestamp
+ * Definition for geometry_msgs/TwistStamped
+ *
+ * <p>A twist with reference coordinate frame and timestamp A twist with reference coordinate frame
+ * and timestamp
  */
-@MessageMetadata(name = TwistStampedMessage.NAME, md5sum = "08a22ddf566b82f747df9cc6e2fbbf7a")
+@MessageMetadata(
+        name = TwistStampedMessage.NAME,
+        fields = {"header", "twist"})
 public class TwistStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/TwistStamped";

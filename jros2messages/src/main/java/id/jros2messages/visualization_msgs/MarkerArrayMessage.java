@@ -23,7 +23,7 @@ import id.xfunction.XJson;
 import java.util.Arrays;
 
 /** Definition for visualization_msgs/MarkerArray */
-@MessageMetadata(name = MarkerArrayMessage.NAME, md5sum = "d155b9ce5188fbaf89745847fd5882d7")
+@MessageMetadata(name = MarkerArrayMessage.NAME)
 public class MarkerArrayMessage implements Message {
 
     static final String NAME = "visualization_msgs/MarkerArray";

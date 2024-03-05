@@ -25,10 +25,13 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Definition for vision_msgs/Detection2DArray A list of 2D detections, for a multi-object 2D
- * detector.
+ * Definition for vision_msgs/Detection2DArray
+ *
+ * <p>A list of 2D detections, for a multi-object 2D detector.
  */
-@MessageMetadata(name = Detection2DArrayMessage.NAME)
+@MessageMetadata(
+        name = Detection2DArrayMessage.NAME,
+        fields = {"header", "detections"})
 public class Detection2DArrayMessage implements Message {
 
     static final String NAME = "vision_msgs/Detection2DArray";

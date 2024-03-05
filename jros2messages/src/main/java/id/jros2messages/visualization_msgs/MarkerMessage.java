@@ -31,8 +31,37 @@ import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
 
-/** Definition for visualization_msgs/Marker */
-@MessageMetadata(name = MarkerMessage.NAME)
+/**
+ * Definition for visualization_msgs/Marker
+ *
+ * <p>See: - http://www.ros.org/wiki/rviz/DisplayTypes/Marker -
+ * http://www.ros.org/wiki/rviz/Tutorials/Markers%3A%20Basic%20Shapes
+ *
+ * <p>for more information on using this message with rviz.
+ */
+@MessageMetadata(
+        name = MarkerMessage.NAME,
+        fields = {
+            "header",
+            "ns",
+            "id",
+            "type",
+            "action",
+            "pose",
+            "scale",
+            "color",
+            "lifetime",
+            "frame_locked",
+            "points",
+            "colors",
+            "texture_resource",
+            "texture",
+            "uv_coordinates",
+            "text",
+            "mesh_resource",
+            "mesh_file",
+            "mesh_use_embedded_materials"
+        })
 public class MarkerMessage implements Message {
 
     static final String NAME = "visualization_msgs/Marker";

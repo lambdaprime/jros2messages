@@ -25,10 +25,14 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for geometry_msgs/PointStamped This represents a Point with reference coordinate frame
- * and timestamp
+ * Definition for geometry_msgs/PointStamped
+ *
+ * <p>This represents a Point with reference coordinate frame and timestamp This represents a Point
+ * with reference coordinate frame and timestamp
  */
-@MessageMetadata(name = PointStampedMessage.NAME, md5sum = "e948b3cf3f45aaeaedb063e8b966cf1f")
+@MessageMetadata(
+        name = PointStampedMessage.NAME,
+        fields = {"header", "point"})
 public class PointStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/PointStamped";

@@ -23,10 +23,14 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for msg/UVCoordinate Location of the pixel as a ratio of the width of a 2D texture. #
- * Values should be in range: [0.0-1.0].
+ * Definition for visualization_msgs/UVCoordinate
+ *
+ * <p>Location of the pixel as a ratio of the width of a 2D texture. Values should be in range:
+ * [0.0-1.0].
  */
-@MessageMetadata(name = UVCoordinateMessage.NAME)
+@MessageMetadata(
+        name = UVCoordinateMessage.NAME,
+        fields = {"u", "v"})
 public class UVCoordinateMessage implements Message {
 
     static final String NAME = "visualization_msgs/UVCoordinate";

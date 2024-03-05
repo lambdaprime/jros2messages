@@ -25,10 +25,17 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for geometry_msgs/Vector3Stamped This represents a Vector3 with reference coordinate
- * frame and timestamp
+ * Definition for geometry_msgs/Vector3Stamped
+ *
+ * <p>This represents a Vector3 with reference coordinate frame and timestamp This represents a
+ * Vector3 with reference coordinate frame and timestamp
+ *
+ * <p>Note that this follows vector semantics with it always anchored at the origin, so the
+ * rotational elements of a transform are the only parts applied when transforming.
  */
-@MessageMetadata(name = Vector3StampedMessage.NAME, md5sum = "25a0f208694a205ef85c426c089ebf78")
+@MessageMetadata(
+        name = Vector3StampedMessage.NAME,
+        fields = {"header", "vector"})
 public class Vector3StampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/Vector3Stamped";

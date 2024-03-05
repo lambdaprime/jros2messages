@@ -25,10 +25,14 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for geometry_msgs/QuaternionStamped This represents an orientation with reference
- * coordinate frame and timestamp.
+ * Definition for geometry_msgs/QuaternionStamped
+ *
+ * <p>This represents an orientation with reference coordinate frame and timestamp. This represents
+ * an orientation with reference coordinate frame and timestamp.
  */
-@MessageMetadata(name = QuaternionStampedMessage.NAME, md5sum = "4a5c00199247da86fc3d583bf5af5ca6")
+@MessageMetadata(
+        name = QuaternionStampedMessage.NAME,
+        fields = {"header", "quaternion"})
 public class QuaternionStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/QuaternionStamped";

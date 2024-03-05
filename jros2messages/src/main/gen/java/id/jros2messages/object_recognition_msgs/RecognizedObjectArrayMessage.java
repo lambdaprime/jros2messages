@@ -27,7 +27,7 @@ import java.util.Objects;
 /** Definition for object_recognition_msgs/RecognizedObjectArray */
 @MessageMetadata(
         name = RecognizedObjectArrayMessage.NAME,
-        md5sum = "5746f6dbdd0d9dca075766fb7c6dd65c")
+        fields = {"header", "objects", "cooccurrence"})
 public class RecognizedObjectArrayMessage implements Message {
 
     static final String NAME = "object_recognition_msgs/RecognizedObjectArray";

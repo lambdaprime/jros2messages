@@ -19,6 +19,7 @@ package id.jros2messages.impl;
 
 import static id.kineticstreamer.KineticStreamConstants.EMPTY_ANNOTATIONS;
 
+import id.kineticstreamer.KineticStreamController;
 import id.kineticstreamer.KineticStreamWriter;
 import id.kineticstreamer.OutputKineticStream;
 import id.xfunction.logging.XLogger;
@@ -38,9 +39,11 @@ public class DdsDataOutput implements OutputKineticStream {
     private static final XLogger LOGGER = XLogger.getLogger(DdsDataOutput.class);
     private DataOutput out;
     private int position;
+    private KineticStreamController controller;
 
-    public DdsDataOutput(DataOutput out) {
+    public DdsDataOutput(DataOutput out, KineticStreamController controller) {
         this.out = out;
+        this.controller = controller;
     }
 
     public void writeLen(int len) throws IOException {
@@ -104,8 +107,9 @@ public class DdsDataOutput implements OutputKineticStream {
     @Override
     public void writeArray(Object[] array, Annotation[] fieldAnnotations) throws Exception {
         writeArraySize(array.length, fieldAnnotations);
+        var writer = new KineticStreamWriter(this).withController(controller);
         for (var item : array) {
-            new KineticStreamWriter(this).write(item);
+            writer.write(item);
         }
     }
 

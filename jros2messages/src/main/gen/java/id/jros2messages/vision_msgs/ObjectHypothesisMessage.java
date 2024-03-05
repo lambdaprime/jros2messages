@@ -24,11 +24,14 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for vision_msgs/ObjectHypothesis An object hypothesis that contains no pose
- * information. # If you would like to define an array of ObjectHypothesis messages, # please see
- * the Classification message type.
+ * Definition for vision_msgs/ObjectHypothesis
+ *
+ * <p>An object hypothesis that contains no pose information. If you would like to define an array
+ * of ObjectHypothesis messages, please see the Classification message type.
  */
-@MessageMetadata(name = ObjectHypothesisMessage.NAME)
+@MessageMetadata(
+        name = ObjectHypothesisMessage.NAME,
+        fields = {"class_id", "score"})
 public class ObjectHypothesisMessage implements Message {
 
     static final String NAME = "vision_msgs/ObjectHypothesis";

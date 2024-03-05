@@ -23,10 +23,15 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for vision_msgs/Point2D Represents a 2D point in pixel coordinates. # XY matches the
+ * Definition for vision_msgs/Point2D
+ *
+ * <p>Represents a 2D point in pixel coordinates. XY matches the sensor_msgs/Image convention: X is
+ * positive right and Y is positive down. Represents a 2D point in pixel coordinates. XY matches the
  * sensor_msgs/Image convention: X is positive right and Y is positive down.
  */
-@MessageMetadata(name = Point2DMessage.NAME)
+@MessageMetadata(
+        name = Point2DMessage.NAME,
+        fields = {"x", "y"})
 public class Point2DMessage implements Message {
 
     static final String NAME = "vision_msgs/Point2D";

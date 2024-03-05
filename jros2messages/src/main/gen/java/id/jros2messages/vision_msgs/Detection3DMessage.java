@@ -27,10 +27,15 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Definition for vision_msgs/Detection3D Defines a 3D detection result. # # This extends a basic 3D
- * classification by including the pose of the # detected object.
+ * Definition for vision_msgs/Detection3D
+ *
+ * <p>Defines a 3D detection result.
+ *
+ * <p>This extends a basic 3D classification by including the pose of the detected object.
  */
-@MessageMetadata(name = Detection3DMessage.NAME)
+@MessageMetadata(
+        name = Detection3DMessage.NAME,
+        fields = {"header", "results", "bbox", "id"})
 public class Detection3DMessage implements Message {
 
     static final String NAME = "vision_msgs/Detection3D";

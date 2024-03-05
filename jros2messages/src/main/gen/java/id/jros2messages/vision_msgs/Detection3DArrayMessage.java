@@ -25,10 +25,13 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Definition for vision_msgs/Detection3DArray A list of 3D detections, for a multi-object 3D
- * detector.
+ * Definition for vision_msgs/Detection3DArray
+ *
+ * <p>A list of 3D detections, for a multi-object 3D detector.
  */
-@MessageMetadata(name = Detection3DArrayMessage.NAME)
+@MessageMetadata(
+        name = Detection3DArrayMessage.NAME,
+        fields = {"header", "detections"})
 public class Detection3DArrayMessage implements Message {
 
     static final String NAME = "vision_msgs/Detection3DArray";

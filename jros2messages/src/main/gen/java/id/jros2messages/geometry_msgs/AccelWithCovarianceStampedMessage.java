@@ -25,12 +25,13 @@ import id.xfunction.XJson;
 import java.util.Objects;
 
 /**
- * Definition for geometry_msgs/AccelWithCovarianceStamped This represents an estimated accel with
- * reference coordinate frame and timestamp.
+ * Definition for geometry_msgs/AccelWithCovarianceStamped
+ *
+ * <p>This represents an estimated accel with reference coordinate frame and timestamp.
  */
 @MessageMetadata(
         name = AccelWithCovarianceStampedMessage.NAME,
-        md5sum = "cf7b852cab243d76000e69f42f2700f6")
+        fields = {"header", "accel"})
 public class AccelWithCovarianceStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/AccelWithCovarianceStamped";

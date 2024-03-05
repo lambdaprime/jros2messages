@@ -24,8 +24,15 @@ import id.jrosmessages.geometry_msgs.InertiaMessage;
 import id.xfunction.XJson;
 import java.util.Objects;
 
-/** Definition for geometry_msgs/InertiaStamped */
-@MessageMetadata(name = InertiaStampedMessage.NAME, md5sum = "f316819d435fac009022ead4726153cc")
+/**
+ * Definition for geometry_msgs/InertiaStamped
+ *
+ * <p>An Inertia with a time stamp and reference frame. An Inertia with a time stamp and reference
+ * frame.
+ */
+@MessageMetadata(
+        name = InertiaStampedMessage.NAME,
+        fields = {"header", "inertia"})
 public class InertiaStampedMessage implements Message {
 
     static final String NAME = "geometry_msgs/InertiaStamped";

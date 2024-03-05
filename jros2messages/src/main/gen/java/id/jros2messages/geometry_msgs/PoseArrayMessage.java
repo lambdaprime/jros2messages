@@ -25,8 +25,15 @@ import id.xfunction.XJson;
 import java.util.Arrays;
 import java.util.Objects;
 
-/** Definition for geometry_msgs/PoseArray An array of poses with a header for global reference. */
-@MessageMetadata(name = PoseArrayMessage.NAME, md5sum = "5f3f794301c7af61b3beab5b9997bb64")
+/**
+ * Definition for geometry_msgs/PoseArray
+ *
+ * <p>An array of poses with a header for global reference. An array of poses with a header for
+ * global reference.
+ */
+@MessageMetadata(
+        name = PoseArrayMessage.NAME,
+        fields = {"header", "poses"})
 public class PoseArrayMessage implements Message {
 
     static final String NAME = "geometry_msgs/PoseArray";

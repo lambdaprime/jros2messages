@@ -26,11 +26,16 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Definition for vision_msgs/Detection2D Defines a 2D detection result. # # This is similar to a 2D
- * classification, but includes position information, # allowing a classification result for a
- * specific crop or image point to # to be located in the larger image.
+ * Definition for vision_msgs/Detection2D
+ *
+ * <p>Defines a 2D detection result.
+ *
+ * <p>This is similar to a 2D classification, but includes position information, allowing a
+ * classification result for a specific crop or image point to to be located in the larger image.
  */
-@MessageMetadata(name = Detection2DMessage.NAME)
+@MessageMetadata(
+        name = Detection2DMessage.NAME,
+        fields = {"header", "results", "bbox", "id"})
 public class Detection2DMessage implements Message {
 
     static final String NAME = "vision_msgs/Detection2D";

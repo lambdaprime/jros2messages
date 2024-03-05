@@ -25,11 +25,17 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Definition for vision_msgs/Classification Defines a classification result. # # This result does
- * not contain any position information. It is designed for # classifiers, which simply provide
- * class probabilities given an instance of # source data (e.g., an image or a point cloud).
+ * Definition for vision_msgs/Classification
+ *
+ * <p>Defines a classification result.
+ *
+ * <p>This result does not contain any position information. It is designed for classifiers, which
+ * simply provide class probabilities given an instance of source data (e.g., an image or a point
+ * cloud).
  */
-@MessageMetadata(name = ClassificationMessage.NAME)
+@MessageMetadata(
+        name = ClassificationMessage.NAME,
+        fields = {"header", "results"})
 public class ClassificationMessage implements Message {
 
     static final String NAME = "vision_msgs/Classification";

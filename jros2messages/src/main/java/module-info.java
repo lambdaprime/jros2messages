@@ -23,11 +23,11 @@
  * <p>By default every message in this module implements toString method which returns ROS message
  * representation in JSON format (including all its values).
  *
- * @see <a href= "http://portal2.atwebpages.com/jrosclient/Defining_messages.html">Defining new
+ * @see <a href="http://portal2.atwebpages.com/jrosclient/Defining_messages.html">Defining new
  *     messages</a>
- * @see <a href= "https://github.com/lambdaprime/jrosmessages/releases">Download</a>
+ * @see <a href="https://github.com/lambdaprime/jros2messages/blob/main/jros2messages/release/CHANGELOG.md">Download</a>
  * @see <a href="https://github.com/lambdaprime/jros2messages">GitHub repository</a>
- * @see <a href= "http://portal2.atwebpages.com/jrosclient/">jrosclient documentation</a>
+ * @see <a href="http://portal2.atwebpages.com/jrosclient/">jrosclient documentation</a>
  * @author lambdaprime intid@protonmail.com
  */
 module jros2messages {

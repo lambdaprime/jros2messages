@@ -14,9 +14,9 @@ java {
 }
 
 dependencies {
-  api "io.github.lambdaprime:id.xfunction:24.0:android@aar"
-  api "io.github.lambdaprime:jrosmessages:5.0"
-  api "io.github.lambdaprime:kineticstreamer:7.0"
+  api "io.github.lambdaprime:id.xfunction:25.0:android@aar"
+  api "io.github.lambdaprime:jrosmessages:6.0"
+  api "io.github.lambdaprime:kineticstreamer:8.0"
   api "io.opentelemetry:opentelemetry-api:1.34.1"
 }
 
@@ -32,7 +32,7 @@ android {
   sourceSets {
     main {
       java {
-        srcDirs += ["../jros2messages/src/main/java", "../jros2messages/src/main/gen/java"]
+        srcDirs += ["../jros2messages/src/main/gen/java"]
       }
     }
   }
@@ -41,3 +41,13 @@ android {
     minSdkVersion androidSdkVersion
   }
 }
+
+// it is not possible to exclude module-info through srcDirs:
+// https://discuss.gradle.org/t/how-to-exclude-module-info-java-in-gradle-7/42816
+// instead we copy sources except module-info to separate folder
+task copySources(type: Copy) {
+  from "../jros2messages/src/main/java"
+  into "src/main/java"
+  exclude "**/module-info.java"
+}
+preBuild.dependsOn copySources

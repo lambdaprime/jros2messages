@@ -1,2 +1,2 @@
-include 'jros2messages'
-include 'jros2messages.tests'
+include "${zzName}"
+include "${zzName}.tests"

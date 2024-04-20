@@ -24,9 +24,7 @@ eclipse.classpath.file {
 }
 
 dependencies {
-  api "io.github.lambdaprime:jrosmessages:6.0"
-  api "io.github.lambdaprime:kineticstreamer:8.0"
-  api "io.opentelemetry:opentelemetry-api:1.34.1"
+  api "io.github.lambdaprime:jrosmessages:7.0"
 }
 
 jar {
@@ -43,6 +41,10 @@ javadoc {
   options.noNavBar = true
   // ignore missing @return, @param etc
   options.addBooleanOption('Xdoclint:all,-missing', true)
+  // should point to location of element-list files
+  options.addMultilineStringsOption("link").value = [
+    "http://portal2.atwebpages.com/jrosclient/javadoc/jrosmessages/",
+  ]
 }
 
 sourceSets {

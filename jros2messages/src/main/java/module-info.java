@@ -25,7 +25,8 @@
  *
  * @see <a href="http://portal2.atwebpages.com/jrosclient/Defining_messages.html">Defining new
  *     messages</a>
- * @see <a href="https://github.com/lambdaprime/jros2messages/blob/main/jros2messages/release/CHANGELOG.md">Download</a>
+ * @see <a
+ *     href="https://github.com/lambdaprime/jros2messages/blob/main/jros2messages/release/CHANGELOG.md">Releases</a>
  * @see <a href="https://github.com/lambdaprime/jros2messages">GitHub repository</a>
  * @see <a href="http://portal2.atwebpages.com/jrosclient/">jrosclient documentation</a>
  * @author lambdaprime intid@protonmail.com

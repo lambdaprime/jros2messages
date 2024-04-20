@@ -106,8 +106,9 @@ public class DdsDataInput implements InputKineticStream {
             throws Exception {
         LOGGER.entering("readArray");
         var array = (Object[]) Array.newInstance(type, readArraySize(fieldAnnotations));
+        var reader = new KineticStreamReader(this);
         for (int i = 0; i < array.length; i++) {
-            array[i] = new KineticStreamReader(this).read(type);
+            array[i] = reader.read(type);
         }
         LOGGER.exiting("readArray");
         return array;

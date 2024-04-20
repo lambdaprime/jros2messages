@@ -27,6 +27,7 @@ import id.kineticstreamer.KineticStreamReader;
 import id.kineticstreamer.KineticStreamWriter;
 import id.kineticstreamer.PublicStreamedFieldsProvider;
 import id.kineticstreamer.StreamedFieldsProvider;
+import id.xfunction.Preconditions;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.metrics.LongHistogram;
 import io.opentelemetry.api.metrics.Meter;
@@ -72,6 +73,8 @@ public class MessageSerializationUtils {
      * @param clazz message class
      */
     public <M extends Message> M read(byte[] data, Class<M> clazz) {
+        Preconditions.isTrue(
+                data.length != 0, "Could not read the message as there is no data to read");
         var startAt = Instant.now();
         try {
             var buf = ByteBuffer.wrap(data);

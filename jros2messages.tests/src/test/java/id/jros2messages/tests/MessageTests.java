@@ -20,12 +20,14 @@ package id.jros2messages.tests;
 import static java.util.stream.Collectors.joining;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import id.jros2messages.MessageSerializationUtils;
+import id.jros2messages.Ros2MessageSerializationUtils;
 import id.jros2messages.geometry_msgs.PolygonStampedMessage;
 import id.jros2messages.sensor_msgs.JointStateMessage;
 import id.jros2messages.sensor_msgs.JoyMessage;
+import id.jros2messages.sensor_msgs.MultiDOFJointStateMessage;
 import id.jros2messages.sensor_msgs.PointCloud2Message;
 import id.jros2messages.std_msgs.HeaderMessage;
+import id.jros2messages.trajectory_msgs.JointTrajectoryMessage;
 import id.jros2messages.unique_identifier_msgs.UUIDMessage;
 import id.jros2messages.vision_msgs.ObjectHypothesisWithPoseMessage;
 import id.jros2messages.visualization_msgs.MarkerArrayMessage;
@@ -37,13 +39,17 @@ import id.jrosmessages.geometry_msgs.PolygonMessage;
 import id.jrosmessages.geometry_msgs.PoseMessage;
 import id.jrosmessages.geometry_msgs.PoseWithCovarianceMessage;
 import id.jrosmessages.geometry_msgs.QuaternionMessage;
+import id.jrosmessages.geometry_msgs.TransformMessage;
+import id.jrosmessages.geometry_msgs.TwistMessage;
 import id.jrosmessages.geometry_msgs.Vector3Message;
+import id.jrosmessages.geometry_msgs.WrenchMessage;
 import id.jrosmessages.primitives.Duration;
 import id.jrosmessages.primitives.Time;
 import id.jrosmessages.sensor_msgs.PointFieldMessage;
 import id.jrosmessages.sensor_msgs.PointFieldMessage.DataType;
 import id.jrosmessages.std_msgs.ColorRGBAMessage;
 import id.jrosmessages.std_msgs.StringMessage;
+import id.jrosmessages.trajectory_msgs.JointTrajectoryPointMessage;
 import id.xfunction.ResourceUtils;
 import id.xfunction.XByte;
 import java.util.List;
@@ -54,25 +60,31 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class MessageTests {
     private static final ResourceUtils resourceUtils = new ResourceUtils();
-    private MessageSerializationUtils serializationUtils = new MessageSerializationUtils();
+    private Ros2MessageSerializationUtils serializationUtils = new Ros2MessageSerializationUtils();
 
     static Stream<List> dataProvider() {
         return Stream.of(
-                // 1
-                List.of(readResource("string-ros2"), new StringMessage("Hello World: 2767")),
-                // 2
+                // string-empty
                 List.of(readResource("string-empty-ros2"), new StringMessage()),
+                // string
+                List.of(readResource("string-ros2"), new StringMessage("Hello World: 2767")),
+                // point-empty
                 List.of(readResource("point-empty"), new PointMessage()),
+                // point
                 List.of(readResource("point"), new PointMessage().withX(1.0).withY(1.0).withZ(1.0)),
-                // 5
+                // point32
                 List.of(
                         readResource("point32"),
                         new Point32Message().withX(1.0F).withY(1.0F).withZ(1.0F)),
+                // quaternion-empty
                 List.of(readResource("quaternion-empty"), new QuaternionMessage()),
+                // quaternion
                 List.of(
                         readResource("quaternion"),
                         new QuaternionMessage().withX(1.0).withY(1.0).withZ(1.0).withW(3.0)),
+                // pose-empty
                 List.of(readResource("pose-empty"), new PoseMessage()),
+                // pose
                 List.of(
                         readResource("pose"),
                         new PoseMessage()
@@ -83,16 +95,19 @@ public class MessageTests {
                                                 .withY(1.0)
                                                 .withZ(1.0)
                                                 .withW(3.0))),
-                // 10
+                // colorrgba-empty
                 List.of(readResource("colorrgba-empty"), new ColorRGBAMessage()),
+                // colorrgba
                 List.of(
                         readResource("colorrgba"),
                         new ColorRGBAMessage().withR(.12F).withG(.13F).withB(.14F).withA(.15F)),
+                // vector3-empty
                 List.of(readResource("vector3-empty"), new Vector3Message()),
+                // vector3
                 List.of(
                         readResource("vector3"),
                         new Vector3Message().withX(.12).withY(.13).withZ(.14)),
-                // 14
+                // polygonstamped
                 List.of(
                         readResource("polygonstamped"),
                         new PolygonStampedMessage()
@@ -108,15 +123,15 @@ public class MessageTests {
                                                             new Point32Message(1F, 2F, 3F),
                                                             new Point32Message(0F, 0F, 0F)
                                                         }))),
-                // 15
+                // header-empty
                 List.of(readResource("header-empty"), new HeaderMessage()),
-                // 16
+                // header
                 List.of(
                         readResource("header"),
                         new HeaderMessage().withStamp(new Time(0, 1111)).withFrameId("aaaa")),
-                // 17
+                // marker-empty
                 List.of(readResource("marker-empty"), new MarkerMessage()),
-                // 18
+                // marker-array
                 List.of(
                         readResource("marker-array"),
                         new MarkerArrayMessage()
@@ -156,7 +171,7 @@ public class MessageTests {
                                                 .withLifetime(new Duration())
                                                 .withFrameLocked(true)
                                                 .withMeshUseEmbeddedMaterials(true))),
-                // 19
+                // pointcloud2
                 List.of(
                         readResource("pointcloud2"),
                         new PointCloud2Message()
@@ -186,7 +201,7 @@ public class MessageTests {
                                 .withData("a".repeat(96).getBytes())
                                 .withRowStep(96)
                                 .withWidth(8)),
-                // 20
+                // joint-state
                 List.of(
                         readResource("joint-state"),
                         new JointStateMessage()
@@ -196,9 +211,9 @@ public class MessageTests {
                                 .withNames("joint_0", "joint_1", "joint_2", "joint_3", "joint_4")
                                 .withPositions(
                                         new double[] {0.0, 0.0, 0.0, 0.767944870877505, 0.0})),
-                // 21
+                // uuid
                 List.of(readResource("uuid"), new UUIDMessage(new UUID(0x10101020, 0x30101040))),
-                // 22
+                // joy
                 List.of(
                         readResource("joy"),
                         new JoyMessage()
@@ -207,7 +222,7 @@ public class MessageTests {
                                                 .withStamp(new Time(1621056685, 970860000)))
                                 .withAxes(3.3F, 3.2F, 3.1F)
                                 .withButtons(5, 6, 7)),
-                // 23
+                // obj_hypothesis
                 List.of(
                         readResource("obj_hypothesis"),
                         new ObjectHypothesisWithPoseMessage()
@@ -217,7 +232,104 @@ public class MessageTests {
                                                         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
                                                         14, 15.56, 16, 17, 18, 19, 20, 21, 22, 23,
                                                         24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
-                                                        35, 36))));
+                                                        35, 36))),
+                /*
+                 *
+                ros2 topic pub -r 10 helloRos "sensor_msgs/MultiDOFJointState" '
+                header:
+                  stamp: {sec: 123}
+                  frame_id: "aaa"
+                joint_names: ["joint1", "joint2"]
+                transforms:
+                  - translation: {x: 1, y: 2, z: 3}
+                    rotation: {x: 4,y: 5,z: 6,w: 7}
+                  - translation: {x: 8, y: 9, z: 10}
+                    rotation: {x: 11,y: 12,z: 13,w: 14}
+                twist:
+                  - linear: {x: 11, y: 12, z: 13}
+                    angular: {x: 14, y: 15, z: 16}
+                  - linear: {x: 18, y: 19, z: 110}
+                    angular: {x: 111, y: 112, z: 113}
+                wrench:
+                  - force: {x: 11, y: 12, z: 13}
+                    torque: {x: 14, y: 15, z: 16}
+                  - force: {x: 18, y: 19, z: 110}
+                    torque: {x: 111, y: 112, z: 113}
+                '
+                *
+                */
+                List.of(
+                        readResource("MultiDOFJointState"),
+                        new MultiDOFJointStateMessage()
+                                .withHeader(new HeaderMessage().withFrameId("aaa"))
+                                .withJointNames(
+                                        new StringMessage("joint1"), new StringMessage("joint2"))
+                                .withTransforms(
+                                        new TransformMessage()
+                                                .withTranslation(new Vector3Message(1, 2, 3))
+                                                .withRotation(
+                                                        new QuaternionMessage(4., 5., 6., 7.)),
+                                        new TransformMessage()
+                                                .withTranslation(new Vector3Message(8, 9, 10))
+                                                .withRotation(
+                                                        new QuaternionMessage(11, 12, 13, 14)))
+                                .withTwist(
+                                        new TwistMessage()
+                                                .withLinear(new Vector3Message(11, 12, 13))
+                                                .withAngular(new Vector3Message(14, 15, 16)),
+                                        new TwistMessage()
+                                                .withLinear(new Vector3Message(18, 19, 110))
+                                                .withAngular(new Vector3Message(111, 112, 113)))
+                                .withWrench(
+                                        new WrenchMessage()
+                                                .withForce(new Vector3Message(11, 12, 13))
+                                                .withTorque(new Vector3Message(14, 15, 16)),
+                                        new WrenchMessage()
+                                                .withForce(new Vector3Message(18, 19, 110))
+                                                .withTorque(new Vector3Message(111, 112, 113)))),
+                /*
+                 *
+                 ros2 topic pub -r 10 helloRos "trajectory_msgs/JointTrajectory" '
+                 header:
+                   stamp: {sec: 123}
+                   frame_id: "aaa"
+                 joint_names: ["joint1", "joint2"]
+                 points:
+                   - positions: [1,2,3]
+                     velocities: [4,5,6,7]
+                     accelerations: [8,9,10]
+                     effort: [11,12,13,14]
+                     time_from_start:  {sec: 333}
+                   - positions: [11,12,13]
+                     velocities: [14,15,16,17]
+                     accelerations: [18,19,10]
+                     effort: [1,2,3,4]
+                     time_from_start:  {sec: 54}
+                 '
+                *
+                */
+                List.of(
+                        readResource("JointTrajectory"),
+                        new JointTrajectoryMessage()
+                                .withHeader(
+                                        new HeaderMessage()
+                                                .withStamp(new Time(123, 0))
+                                                .withFrameId("aaa"))
+                                .withJointNames(
+                                        new StringMessage("joint1"), new StringMessage("joint2"))
+                                .withPoints(
+                                        new JointTrajectoryPointMessage()
+                                                .withPositions(1, 2, 3)
+                                                .withVelocities(4, 5, 6, 7)
+                                                .withAccelerations(8, 9, 10)
+                                                .withEffort(11, 12, 13, 14)
+                                                .withTimeFromStart(new Duration(333)),
+                                        new JointTrajectoryPointMessage()
+                                                .withPositions(11, 12, 13)
+                                                .withVelocities(14, 15, 16, 17)
+                                                .withAccelerations(18, 19, 10)
+                                                .withEffort(1, 2, 3, 4)
+                                                .withTimeFromStart(new Duration(54)))));
     }
 
     /** Read resource removing new lines if any */

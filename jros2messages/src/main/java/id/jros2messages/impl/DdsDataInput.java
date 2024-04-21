@@ -19,13 +19,13 @@ package id.jros2messages.impl;
 
 import static id.kineticstreamer.KineticStreamConstants.EMPTY_ANNOTATIONS;
 
-import id.kineticstreamer.InputKineticStream;
-import id.kineticstreamer.KineticStreamReader;
+import id.jrosmessages.impl.RosDataInput;
+import id.kineticstreamer.KineticStreamController;
 import id.xfunction.Preconditions;
+import id.xfunction.logging.TracingToken;
 import id.xfunction.logging.XLogger;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
@@ -34,111 +34,71 @@ import java.util.UUID;
  *
  * @author aeon_flux aeon_flux@eclipso.ch
  */
-public class DdsDataInput implements InputKineticStream {
+public class DdsDataInput extends RosDataInput {
+    private XLogger logger;
 
-    private static final XLogger LOGGER = XLogger.getLogger(DdsDataInput.class);
-
-    private ByteBuffer in;
-
-    public DdsDataInput(ByteBuffer in) {
-        this.in = in.order(JRos2MessagesConstants.ROS2_BYTE_ORDER);
+    @SuppressWarnings("exports")
+    public DdsDataInput(
+            @SuppressWarnings("exports") TracingToken tracingToken,
+            ByteBuffer buf,
+            KineticStreamController controller) {
+        super(tracingToken, buf, controller);
+        logger = XLogger.getLogger(DdsDataInput.class, tracingToken);
     }
 
     @Override
     public int readInt(Annotation[] fieldAnnotations) throws IOException {
-        LOGGER.entering("readInt");
         align(Integer.BYTES);
-        var value = in.getInt();
-        LOGGER.exiting("readInt", value);
-        return value;
-    }
-
-    private void align(int n) throws IOException {
-        while (in.position() % n != 0) {
-            in.get();
-        }
+        return super.readInt(fieldAnnotations);
     }
 
     @Override
     public String readString(Annotation[] fieldAnnotations) throws IOException {
-        LOGGER.entering("readString");
+        logger.entering("readString");
         int len = readLen();
         byte[] b = new byte[len];
         in.get(b);
         var value = new String(b, 0, len - 1);
         Preconditions.equals(0, b[len - 1], "Null byte expected");
-        LOGGER.exiting("readString", (Object) value);
+        logger.exiting("readString", (Object) value);
         return value;
     }
 
+    @Override
     public int readLen() throws IOException {
         return readInt(EMPTY_ANNOTATIONS);
     }
 
     @Override
     public double readDouble(Annotation[] fieldAnnotations) throws IOException {
-        LOGGER.entering("readDouble");
         align(Double.BYTES);
-        var value = in.getDouble();
-        LOGGER.exiting("readDouble", value);
-        return value;
+        return super.readDouble(fieldAnnotations);
     }
 
     @Override
     public float readFloat(Annotation[] fieldAnnotations) throws IOException {
-        LOGGER.entering("readFloat");
         align(Float.BYTES);
-        var value = in.getFloat();
-        LOGGER.exiting("readFloat", value);
-        return value;
+        return super.readFloat(fieldAnnotations);
     }
 
     @Override
-    public boolean readBool(Annotation[] fieldAnnotations) throws IOException {
-        LOGGER.entering("readBool");
-        var value = readByte(EMPTY_ANNOTATIONS);
-        LOGGER.exiting("readBool", value);
-        return value == 1;
+    public long readLong(Annotation[] fieldAnnotations) throws Exception {
+        align(Long.BYTES);
+        return super.readLong(fieldAnnotations);
     }
 
-    @Override
-    public Object[] readArray(Object[] a, Class<?> type, Annotation[] fieldAnnotations)
-            throws Exception {
-        LOGGER.entering("readArray");
-        var array = (Object[]) Array.newInstance(type, readArraySize(fieldAnnotations));
-        var reader = new KineticStreamReader(this);
-        for (int i = 0; i < array.length; i++) {
-            array[i] = reader.read(type);
-        }
-        LOGGER.exiting("readArray");
-        return array;
-    }
-
-    @Override
-    public void close() throws Exception {
-        // nothing to release
-    }
-
-    @Override
-    public byte readByte(Annotation[] fieldAnnotations) throws IOException {
-        LOGGER.entering("readByte");
-        var value = in.get();
-        LOGGER.exiting("readByte");
-        return value;
-    }
-
-    @Override
-    public byte[] readByteArray(byte[] array, Annotation[] fieldAnnotations) throws Exception {
-        LOGGER.entering("readByteArray");
-        array = new byte[readArraySize(fieldAnnotations)];
-        in.get(array);
-        LOGGER.exiting("readByteArray");
-        return array;
+    public UUID readUUID() throws Exception {
+        logger.entering("readUUID");
+        var hi = readLong(EMPTY_ANNOTATIONS);
+        var lo = readLong(EMPTY_ANNOTATIONS);
+        var uuid = new UUID(lo, hi);
+        logger.exiting("readUUID");
+        return uuid;
     }
 
     @Override
     public int[] readIntArray(int[] array, Annotation[] fieldAnnotations) throws Exception {
-        LOGGER.entering("readIntArray");
+        logger.entering("readIntArray");
         array = new int[readArraySize(fieldAnnotations)];
         if (array.length > 0) {
             align(Integer.BYTES);
@@ -146,14 +106,14 @@ public class DdsDataInput implements InputKineticStream {
             tmpBuf.get(array);
             in.position(in.position() + array.length * Integer.BYTES);
         }
-        LOGGER.exiting("readIntArray");
+        logger.exiting("readIntArray");
         return array;
     }
 
     @Override
     public double[] readDoubleArray(double[] array, Annotation[] fieldAnnotations)
             throws Exception {
-        LOGGER.entering("readDoubleArray");
+        logger.entering("readDoubleArray");
         array = new double[readArraySize(fieldAnnotations)];
         if (array.length > 0) {
             align(Double.BYTES);
@@ -161,92 +121,13 @@ public class DdsDataInput implements InputKineticStream {
             tmpBuf.get(array);
             in.position(in.position() + array.length * Double.BYTES);
         }
-        LOGGER.exiting("readDoubleArray");
+        logger.exiting("readDoubleArray");
         return array;
-    }
-
-    private int readArraySize(Annotation[] fieldAnnotations) throws IOException {
-        LOGGER.entering("readArraySize");
-        var s = 0;
-        for (int i = 0; i < fieldAnnotations.length; i++) {
-            if (fieldAnnotations[i] instanceof id.jrosmessages.Array a) {
-                s = a.size();
-                break;
-            }
-        }
-        if (s == 0) s = readLen();
-        LOGGER.exiting("readArraySize", s);
-        return s;
-    }
-
-    @Override
-    public boolean[] readBooleanArray(boolean[] array, Annotation[] fieldAnnotations)
-            throws Exception {
-        LOGGER.entering("readBooleanArray");
-        var b = readByteArray(null, EMPTY_ANNOTATIONS);
-        array = new boolean[b.length];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = b[i] == 1;
-        }
-        LOGGER.exiting("readBooleanArray");
-        return array;
-    }
-
-    @Override
-    public long readLong(Annotation[] fieldAnnotations) throws Exception {
-        align(Long.BYTES);
-        return in.getLong();
-    }
-
-    @Override
-    public long[] readLongArray(long[] arg0, Annotation[] fieldAnnotations) throws Exception {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public short readShort(Annotation[] fieldAnnotations) throws Exception {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public short[] readShortArray(short[] arg0, Annotation[] fieldAnnotations) throws Exception {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String[] readStringArray(String[] array, Annotation[] fieldAnnotations)
-            throws Exception {
-        LOGGER.entering("readStringArray");
-        array = new String[readArraySize(fieldAnnotations)];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = readString(EMPTY_ANNOTATIONS);
-        }
-        LOGGER.exiting("readStringArray");
-        return array;
-    }
-
-    public UUID readUUID() throws Exception {
-        LOGGER.entering("readUUID");
-        var hi = readLong(EMPTY_ANNOTATIONS);
-        var lo = readLong(EMPTY_ANNOTATIONS);
-        var uuid = new UUID(lo, hi);
-        LOGGER.exiting("readUUID");
-        return uuid;
-    }
-
-    @Override
-    public char readChar(Annotation[] fieldAnnotations) throws Exception {
-        throw new UnsupportedOperationException(JRos2MessagesConstants.CHAR_ERROR);
-    }
-
-    @Override
-    public char[] readCharArray(char[] arg0, Annotation[] fieldAnnotations) throws Exception {
-        throw new UnsupportedOperationException(JRos2MessagesConstants.CHAR_ARRAY_ERROR);
     }
 
     @Override
     public float[] readFloatArray(float[] array, Annotation[] fieldAnnotations) throws Exception {
-        LOGGER.entering("readFloatArray");
+        logger.entering("readFloatArray");
         array = new float[readArraySize(fieldAnnotations)];
         if (array.length > 0) {
             align(Float.BYTES);
@@ -254,7 +135,13 @@ public class DdsDataInput implements InputKineticStream {
             tmpBuf.get(array);
             in.position(in.position() + array.length * Float.BYTES);
         }
-        LOGGER.exiting("readFloatArray");
+        logger.exiting("readFloatArray");
         return array;
+    }
+
+    private void align(int n) throws IOException {
+        while (in.position() % n != 0) {
+            in.get();
+        }
     }
 }

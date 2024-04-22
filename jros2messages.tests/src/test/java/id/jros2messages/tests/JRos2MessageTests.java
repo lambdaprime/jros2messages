@@ -17,9 +17,6 @@
  */
 package id.jros2messages.tests;
 
-import static java.util.stream.Collectors.joining;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import id.jros2messages.Ros2MessageSerializationUtils;
 import id.jros2messages.geometry_msgs.PolygonStampedMessage;
 import id.jros2messages.sensor_msgs.JointStateMessage;
@@ -32,7 +29,6 @@ import id.jros2messages.unique_identifier_msgs.UUIDMessage;
 import id.jros2messages.vision_msgs.ObjectHypothesisWithPoseMessage;
 import id.jros2messages.visualization_msgs.MarkerArrayMessage;
 import id.jros2messages.visualization_msgs.MarkerMessage;
-import id.jrosmessages.Message;
 import id.jrosmessages.geometry_msgs.Point32Message;
 import id.jrosmessages.geometry_msgs.PointMessage;
 import id.jrosmessages.geometry_msgs.PolygonMessage;
@@ -49,44 +45,34 @@ import id.jrosmessages.sensor_msgs.PointFieldMessage;
 import id.jrosmessages.sensor_msgs.PointFieldMessage.DataType;
 import id.jrosmessages.std_msgs.ColorRGBAMessage;
 import id.jrosmessages.std_msgs.StringMessage;
+import id.jrosmessages.tests.MessageTests;
 import id.jrosmessages.trajectory_msgs.JointTrajectoryPointMessage;
-import id.xfunction.ResourceUtils;
-import id.xfunction.XByte;
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 
-public class MessageTests {
-    private static final ResourceUtils resourceUtils = new ResourceUtils();
-    private Ros2MessageSerializationUtils serializationUtils = new Ros2MessageSerializationUtils();
+/**
+ * @author lambdaprime intid@protonmail.com
+ */
+public class JRos2MessageTests extends MessageTests {
 
-    static Stream<List> dataProvider() {
+    public JRos2MessageTests() {
+        super(new Ros2MessageSerializationUtils());
+    }
+
+    static Stream<TestCase> dataProvider() {
         return Stream.of(
-                // string-empty
-                List.of(readResource("string-empty-ros2"), new StringMessage()),
-                // string
-                List.of(readResource("string-ros2"), new StringMessage("Hello World: 2767")),
+                new TestCase("string-empty-ros2", new StringMessage()),
                 // point-empty
-                List.of(readResource("point-empty"), new PointMessage()),
-                // point
-                List.of(readResource("point"), new PointMessage().withX(1.0).withY(1.0).withZ(1.0)),
-                // point32
-                List.of(
-                        readResource("point32"),
-                        new Point32Message().withX(1.0F).withY(1.0F).withZ(1.0F)),
-                // quaternion-empty
-                List.of(readResource("quaternion-empty"), new QuaternionMessage()),
-                // quaternion
-                List.of(
-                        readResource("quaternion"),
+                new TestCase("point-empty", new PointMessage()),
+                new TestCase("point", new PointMessage().withX(1.0).withY(1.0).withZ(1.0)),
+                new TestCase("point32", new Point32Message().withX(1.0F).withY(1.0F).withZ(1.0F)),
+                new TestCase("quaternion-empty", new QuaternionMessage()),
+                new TestCase(
+                        "quaternion",
                         new QuaternionMessage().withX(1.0).withY(1.0).withZ(1.0).withW(3.0)),
-                // pose-empty
-                List.of(readResource("pose-empty"), new PoseMessage()),
-                // pose
-                List.of(
-                        readResource("pose"),
+                new TestCase("pose-empty", new PoseMessage()),
+                new TestCase(
+                        "pose",
                         new PoseMessage()
                                 .withPosition(new PointMessage().withX(1.0).withY(1.0).withZ(1.0))
                                 .withQuaternion(
@@ -95,21 +81,14 @@ public class MessageTests {
                                                 .withY(1.0)
                                                 .withZ(1.0)
                                                 .withW(3.0))),
-                // colorrgba-empty
-                List.of(readResource("colorrgba-empty"), new ColorRGBAMessage()),
-                // colorrgba
-                List.of(
-                        readResource("colorrgba"),
+                new TestCase("colorrgba-empty", new ColorRGBAMessage()),
+                new TestCase(
+                        "colorrgba",
                         new ColorRGBAMessage().withR(.12F).withG(.13F).withB(.14F).withA(.15F)),
-                // vector3-empty
-                List.of(readResource("vector3-empty"), new Vector3Message()),
-                // vector3
-                List.of(
-                        readResource("vector3"),
-                        new Vector3Message().withX(.12).withY(.13).withZ(.14)),
-                // polygonstamped
-                List.of(
-                        readResource("polygonstamped"),
+                new TestCase("vector3-empty", new Vector3Message()),
+                new TestCase("vector3", new Vector3Message().withX(.12).withY(.13).withZ(.14)),
+                new TestCase(
+                        "polygonstamped",
                         new PolygonStampedMessage()
                                 .withHeader(
                                         new HeaderMessage()
@@ -123,17 +102,13 @@ public class MessageTests {
                                                             new Point32Message(1F, 2F, 3F),
                                                             new Point32Message(0F, 0F, 0F)
                                                         }))),
-                // header-empty
-                List.of(readResource("header-empty"), new HeaderMessage()),
-                // header
-                List.of(
-                        readResource("header"),
+                new TestCase("header-empty", new HeaderMessage()),
+                new TestCase(
+                        "header",
                         new HeaderMessage().withStamp(new Time(0, 1111)).withFrameId("aaaa")),
-                // marker-empty
-                List.of(readResource("marker-empty"), new MarkerMessage()),
-                // marker-array
-                List.of(
-                        readResource("marker-array"),
+                new TestCase("marker-empty", new MarkerMessage()),
+                new TestCase(
+                        "marker-array",
                         new MarkerArrayMessage()
                                 .withMarkers(
                                         new MarkerMessage()
@@ -171,9 +146,8 @@ public class MessageTests {
                                                 .withLifetime(new Duration())
                                                 .withFrameLocked(true)
                                                 .withMeshUseEmbeddedMaterials(true))),
-                // pointcloud2
-                List.of(
-                        readResource("pointcloud2"),
+                new TestCase(
+                        "pointcloud2",
                         new PointCloud2Message()
                                 .withHeader(
                                         new HeaderMessage()
@@ -201,9 +175,8 @@ public class MessageTests {
                                 .withData("a".repeat(96).getBytes())
                                 .withRowStep(96)
                                 .withWidth(8)),
-                // joint-state
-                List.of(
-                        readResource("joint-state"),
+                new TestCase(
+                        "joint-state",
                         new JointStateMessage()
                                 .withHeader(
                                         new HeaderMessage()
@@ -211,20 +184,17 @@ public class MessageTests {
                                 .withNames("joint_0", "joint_1", "joint_2", "joint_3", "joint_4")
                                 .withPositions(
                                         new double[] {0.0, 0.0, 0.0, 0.767944870877505, 0.0})),
-                // uuid
-                List.of(readResource("uuid"), new UUIDMessage(new UUID(0x10101020, 0x30101040))),
-                // joy
-                List.of(
-                        readResource("joy"),
+                new TestCase("uuid", new UUIDMessage(new UUID(0x10101020, 0x30101040))),
+                new TestCase(
+                        "joy",
                         new JoyMessage()
                                 .withHeader(
                                         new HeaderMessage()
                                                 .withStamp(new Time(1621056685, 970860000)))
                                 .withAxes(3.3F, 3.2F, 3.1F)
                                 .withButtons(5, 6, 7)),
-                // obj_hypothesis
-                List.of(
-                        readResource("obj_hypothesis"),
+                new TestCase(
+                        "obj_hypothesis",
                         new ObjectHypothesisWithPoseMessage()
                                 .withPose(
                                         new PoseWithCovarianceMessage()
@@ -258,8 +228,8 @@ public class MessageTests {
                 '
                 *
                 */
-                List.of(
-                        readResource("MultiDOFJointState"),
+                new TestCase(
+                        "MultiDOFJointState",
                         new MultiDOFJointStateMessage()
                                 .withHeader(new HeaderMessage().withFrameId("aaa"))
                                 .withJointNames(
@@ -308,8 +278,8 @@ public class MessageTests {
                  '
                 *
                 */
-                List.of(
-                        readResource("JointTrajectory"),
+                new TestCase(
+                        "JointTrajectory",
                         new JointTrajectoryMessage()
                                 .withHeader(
                                         new HeaderMessage()
@@ -330,35 +300,5 @@ public class MessageTests {
                                                 .withAccelerations(18, 19, 10)
                                                 .withEffort(1, 2, 3, 4)
                                                 .withTimeFromStart(new Duration(54)))));
-    }
-
-    /** Read resource removing new lines if any */
-    private static String readResource(String resourceName) {
-        var resource =
-                resourceUtils
-                        .readResourceAsStream(MessageTests.class, resourceName)
-                        .filter(s -> !s.isBlank())
-                        .collect(joining(" "));
-        return resource;
-    }
-
-    @ParameterizedTest
-    @MethodSource("dataProvider")
-    public void testRead(List testData) throws Exception {
-        Object expected = testData.get(1);
-        Object actual =
-                serializationUtils.read(
-                        XByte.fromHexPairs((String) testData.get(0)),
-                        (Class<? extends Message>) expected.getClass());
-        System.out.println(actual);
-        assertEquals(expected, actual);
-    }
-
-    @ParameterizedTest
-    @MethodSource("dataProvider")
-    public void testWrite(List testData) throws Exception {
-        var b = (Message) testData.get(1);
-        var out = serializationUtils.write(b);
-        assertEquals(testData.get(0), XByte.toHexPairs(out));
     }
 }

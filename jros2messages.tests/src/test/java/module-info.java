@@ -21,11 +21,10 @@
 open module jros2messages.tests {
     requires jros2messages;
     requires id.xfunction;
-    requires id.kineticstreamer;
     requires org.junit.jupiter.api;
     requires org.junit.jupiter.params;
     requires org.junit.platform.commons;
-    requires jrosmessages;
+    requires jrosmessages.tests;
 
     exports id.jros2messages.tests;
 }

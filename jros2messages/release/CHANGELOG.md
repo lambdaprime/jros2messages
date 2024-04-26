@@ -1,3 +1,13 @@
+# Version 7
+
+- Integrating jrosmessages.tests
+- Issue lambdaprime/jros2client#11 Updating jrosmessages and migrating to RosDataInput, RosDataOutput and AbstractMessageSerializationUtils
+- Updating gradle files
+- Adding precondition check and reusing controller object when deserializing arrays
+- Fixing Download link
+
+[jros2messages-v7.0.zip](https://github.com/lambdaprime/jros2messages/raw/main/jros2messages/release/jros2messages-v7.0.zip)
+
 # Version 6
 
 - 1) Updating jrosmessages to v6.0-SNAPSHOT and kineticstreamer v8.0-SNAPSHOT 2) adding 'fields' parameter

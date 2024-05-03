@@ -46,6 +46,7 @@ import id.jrosmessages.sensor_msgs.PointFieldMessage.DataType;
 import id.jrosmessages.std_msgs.ColorRGBAMessage;
 import id.jrosmessages.std_msgs.StringMessage;
 import id.jrosmessages.tests.MessageTests;
+import id.jrosmessages.tests.msgs.TestMessage;
 import id.jrosmessages.trajectory_msgs.JointTrajectoryPointMessage;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -61,6 +62,12 @@ public class JRos2MessageTests extends MessageTests {
 
     static Stream<TestCase> dataProvider() {
         return Stream.of(
+                new TestCase(
+                        "Test",
+                        new TestMessage()
+                                .withData(123)
+                                .withBoolArray(new boolean[] {true, false})
+                                .withBoolFixedArray(new boolean[] {true, true, true})),
                 new TestCase("string-empty-ros2", new StringMessage()),
                 // point-empty
                 new TestCase("point-empty", new PointMessage()),

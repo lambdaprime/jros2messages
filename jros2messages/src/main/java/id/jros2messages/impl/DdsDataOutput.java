@@ -112,10 +112,7 @@ public class DdsDataOutput extends RosDataOutput {
         if (array.length > 0) {
             align(Integer.BYTES);
             var buf = new byte[array.length * Integer.BYTES];
-            ByteBuffer.wrap(buf)
-                    .order(JRosMessagesConstants.ROS_BYTE_ORDER)
-                    .asIntBuffer()
-                    .put(array);
+            wrap(buf).asIntBuffer().put(array);
             out.write(buf);
             position += buf.length;
         }
@@ -133,10 +130,7 @@ public class DdsDataOutput extends RosDataOutput {
         if (array.length > 0) {
             align(Double.BYTES);
             var buf = new byte[array.length * Double.BYTES];
-            ByteBuffer.wrap(buf)
-                    .order(JRosMessagesConstants.ROS_BYTE_ORDER)
-                    .asDoubleBuffer()
-                    .put(array);
+            wrap(buf).asDoubleBuffer().put(array);
             out.write(buf);
             position += buf.length;
         }
@@ -144,16 +138,17 @@ public class DdsDataOutput extends RosDataOutput {
 
     @Override
     public void writeFloatArray(float[] array, Annotation[] fieldAnnotations) throws Exception {
-        writeLen(array.length);
+        writeArraySize(array.length, fieldAnnotations);
         if (array.length > 0) {
             align(Float.BYTES);
             var buf = new byte[array.length * Float.BYTES];
-            ByteBuffer.wrap(buf)
-                    .order(JRosMessagesConstants.ROS_BYTE_ORDER)
-                    .asFloatBuffer()
-                    .put(array);
+            wrap(buf).asFloatBuffer().put(array);
             out.write(buf);
             position += buf.length;
         }
+    }
+
+    private ByteBuffer wrap(byte[] array) {
+        return ByteBuffer.wrap(array).order(JRosMessagesConstants.ROS_BYTE_ORDER);
     }
 }

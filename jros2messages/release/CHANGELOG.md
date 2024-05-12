@@ -1,3 +1,9 @@
+# Version 8
+
+- Updating jrosmessages to v9 and adding tests for bool[]
+
+[jros2messages-v8.0.zip](https://github.com/lambdaprime/jros2messages/raw/main/jros2messages/release/jros2messages-v8.0.zip)
+
 # Version 7
 
 - Integrating jrosmessages.tests

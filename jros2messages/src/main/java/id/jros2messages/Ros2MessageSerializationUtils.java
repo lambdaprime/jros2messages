@@ -38,6 +38,8 @@ public class Ros2MessageSerializationUtils extends AbstractMessageSerializationU
     private static final TracingToken TRACING_TOKEN =
             new TracingToken(Ros2MessageSerializationUtils.class.getSimpleName());
 
+    private static final byte[] EMPTY_MESSAGE = new byte[4];
+
     public Ros2MessageSerializationUtils() {
         super(TRACING_TOKEN, Map.of("RosVersion", "ROS2"));
     }
@@ -54,5 +56,10 @@ public class Ros2MessageSerializationUtils extends AbstractMessageSerializationU
         var controller = new Ros2KineticStreamController().withFieldsProvider(FIELDS_PROVIDER);
         return new KineticStreamWriter(new DdsDataOutput(TRACING_TOKEN, dos, controller))
                 .withController(controller);
+    }
+
+    @Override
+    protected byte[] postProc(byte[] rawMessage) {
+        return rawMessage.length == 0 ? EMPTY_MESSAGE : rawMessage;
     }
 }

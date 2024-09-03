@@ -44,6 +44,7 @@ import id.jrosmessages.primitives.Time;
 import id.jrosmessages.sensor_msgs.PointFieldMessage;
 import id.jrosmessages.sensor_msgs.PointFieldMessage.DataType;
 import id.jrosmessages.std_msgs.ColorRGBAMessage;
+import id.jrosmessages.std_msgs.EmptyMessage;
 import id.jrosmessages.std_msgs.StringMessage;
 import id.jrosmessages.tests.MessageTests;
 import id.jrosmessages.tests.msgs.TestMessage;
@@ -306,6 +307,8 @@ public class JRos2MessageTests extends MessageTests {
                                                 .withVelocities(14, 15, 16, 17)
                                                 .withAccelerations(18, 19, 10)
                                                 .withEffort(1, 2, 3, 4)
-                                                .withTimeFromStart(new Duration(54)))));
+                                                .withTimeFromStart(new Duration(54)))),
+                /** ros2 topic pub -r 10 helloRos "std_msgs/Empty" '{}' */
+                new TestCase("empty", new EmptyMessage()));
     }
 }

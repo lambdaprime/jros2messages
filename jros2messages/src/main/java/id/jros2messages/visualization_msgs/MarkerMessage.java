@@ -78,7 +78,12 @@ public class MarkerMessage implements Message {
         POINTS,
         TEXT_VIEW_FACING,
         MESH_RESOURCE,
-        TRIANGLE_LIST
+        TRIANGLE_LIST,
+
+        /**
+         * @since Jazzy
+         */
+        ARROW_STRIP
     }
 
     public enum Action {

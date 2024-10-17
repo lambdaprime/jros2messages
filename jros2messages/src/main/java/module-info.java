@@ -49,6 +49,7 @@ module jros2messages {
     exports id.jros2messages.unique_identifier_msgs;
     exports id.jros2messages.vision_msgs;
     exports id.jros2messages.control_msgs;
+    exports id.jros2messages.diagnostic_msgs;
     exports id.jros2messages.impl to
             jros2messages.tests;
 }

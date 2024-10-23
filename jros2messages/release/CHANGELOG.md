@@ -1,3 +1,10 @@
+# Version 10
+
+- Adding diagnostic_msgs
+- Adding control_msgs
+
+[jros2messages-v10.0.zip](https://github.com/lambdaprime/jros2messages/raw/main/jros2messages/release/jros2messages-v10.0.zip)
+
 # Version 9
 
 - Issue pinorobotics/jros2services#1 Fixing empty messages, adding tests
